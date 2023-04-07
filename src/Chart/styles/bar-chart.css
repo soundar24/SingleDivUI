@@ -1,0 +1,15 @@
+
+.sd-bar::before {
+    background-image: var(--background-image);
+    background-size: var(--background-size);
+    background-position-x: var(--background-position-x);
+    background-position-y: 100%;
+    background-repeat: no-repeat;
+}
+
+.sd-bar {
+    --bar-color: #48abf9;
+    --bar: linear-gradient(var(--bar-color) 100%, transparent);
+
+    --_x-label-start: var(--_column-size);
+}

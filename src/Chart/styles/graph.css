@@ -1,0 +1,81 @@
+.sd-graph {
+    position: relative;
+    z-index: 10;
+    box-sizing: content-box;
+
+    --_x-axis-line-size: var(--x-axis-line-size, var(--axis-line-size));
+    --_y-axis-line-size: var(--y-axis-line-size, var(--axis-line-size));
+
+    /* X and Y axis lines */
+    border-left: var(--_y-axis-line-size) solid var(--y-axis-line-color, var(--axis-line-color));
+    border-bottom: var(--_x-axis-line-size) solid var(--x-axis-line-color, var(--axis-line-color));
+
+    /* X and Y Grid lines generation */
+    --_x-grid-line-size: var(--x-grid-line-size, var(--grid-line-size));
+    --_y-grid-line-size: var(--y-grid-line-size, var(--grid-line-size));
+    --_x-grid-line-color: var(--x-grid-line-color, var(--grid-line-color));
+    --_y-grid-line-color: var(--y-grid-line-color, var(--grid-line-color));
+
+    background-size: var(--_column-size) var(--_row-size);
+    background-image: 
+        linear-gradient(to bottom, var(--_x-grid-line-color) var(--_x-grid-line-size), transparent 0px),
+        linear-gradient(to right, var(--_y-grid-line-color) var(--_y-grid-line-size), transparent 0px);
+    background-position-x: calc(var(--_start-position) + (var(--_column-size) - (var(--_y-grid-line-size) / 2)));
+    background-position-y: calc(var(--_row-size) - (var(--_y-grid-line-size) / 2));
+}
+.sd-graph {
+    --axis-line-color: #5c5c5c;
+    --grid-line-color: #ddd;
+    --label-color: #4e4e4e;
+    --grid-line-size: 1px;
+    --axis-line-size: 1px;
+    --label-distance: 10px;
+}
+
+.sd-graph::before, .sd-graph::after {
+    display: flex;
+    position: absolute;
+    white-space: pre;
+    box-sizing: content-box;
+}
+
+.sd-graph::before {
+    text-align: right;
+    z-index: 2;
+
+    /* Scale Y label styles */
+    --_y-font-size: var(--y-label-font-size, var(--label-font-size));
+    --_y-font-family: var(--y-label-font-family, var(--label-font-family));
+    --_y-label-distance: var(--y-label-distance, var(--label-distance));
+    --_y-label-left: calc((var(--_y-label-width) + var(--_y-axis-line-size) + var(--_y-label-distance) - var(--_layer-padd-x, 0px)) * -1);
+    --_y-label-top: calc(var(--_layer-padd-y, 0px) - var(--_row-size) / 2);
+    --_y-label-color: var(--y-label-color, var(--label-color));
+
+    font: var(--_y-font-size) var(--_y-font-family);
+    content: var(--_y-label, "") !important;
+    line-height: var(--_row-size);
+    text-shadow: var(--_y-label-left) var(--_y-label-top) var(--_y-label-color);
+    color: transparent;
+}
+
+.sd-graph::after {
+    height: 0px;
+    z-index: 1;
+
+    /* Scale X label styles */
+    --_x-font-size: var(--x-label-font-size, var(--label-font-size));
+    --_x-font-family: var(--x-label-font-family, var(--label-font-family));
+    --_x-label-distance: var(--x-label-distance, var(--label-distance));
+    --_x-label-bottom: calc((var(--_x-label-distance) + var(--_x-axis-line-size)) * -1);
+    --_x-label-color: var(--x-label-color, var(--label-color));
+
+    font: var(--_x-font-size) var(--_x-font-family);
+    content: var(--_x-label, "") !important;
+    bottom: var(--_x-label-bottom);
+    color: var(--_x-label-color);
+    left: calc(var(--_start-position) - var(--_x-label-start, var(--_column-size) / 2));;
+
+    /* Scale X - vertical label related styles */
+    line-height: var(--_x-label-height, normal);
+    writing-mode: var(--_x-label-direction, unset);
+}
