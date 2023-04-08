@@ -28,13 +28,10 @@
 ## Intro
 The SingleDivUI is a simple and smallest UI components library which includes Line chart, Bar chart, Area chart (and more coming on). Here the complete component was made up of with a single DIV element alone, with the CSS capabilities. There is no images, SVG or Canvas nothing used.
 
-Definitely it's not to compete with any other charting library, this is just came with the fun play with CSS. Any of your thoughts and suggestions are welcomes to improve it.
-
 <!-- toc -->
 ## Table of contents
 
 - [Getting started](#getting-started)
-- [Quick Start](#quick-start)
 - [APIs](#apis)
 - [Screenshots](#screenshots)
 - [Facts](#facts)
@@ -125,9 +122,10 @@ new Chart('#chart',  {
 ![singledivui - line chart, bar chart, area chart - customization](/assets/Screenshot-2.png)
 
 ## Facts
+- The complete rendering done by CSS, and inside a single div alone
 - The size of the library is very small with no dependencies
 - No built-in interactions, based on the requirement it can be added in the near future
-- No animation, but still CSS transistion will works on dynamic data update
+- No animation, but still CSS transition will works on dynamic data update
 - Inspired by Lynn Fisher's CSS drawing with a <a href="https://singlediv.com/">single div</a>
 
 ## License
