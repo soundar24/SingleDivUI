@@ -20,7 +20,7 @@
 </p>
 
 <a href="https://singledivui.com">
-    <img src="/assets/showcase-1.png" alt="singledivui - Line chart, Bar chart, Area chart" />
+    <img src="/assets/showcase.png" alt="singledivui - Line chart, Bar chart, Area chart" />
 </a>
 
 ---
@@ -46,14 +46,6 @@ Definitely it's not to compete with any other charting library, this is just cam
 ## Getting started
 
 Refer the [Getting started](https://singledivui.com/docs/getting-started) documentation for the detailed information.
-
-## Quick Start
-
-The easiest way to try and start using **singledivui** is using **JSFiddle** or **CodeSandbox**. Try the below simple chart demo,
-* based on <a href="https://www.jsdelivr.com/package/npm/vue-round-slider">NPM</a>
-    * <a href="https://codesandbox.io/s/vue-round-slider-demo-oz8el?file=/src/components/SliderDemo.vue"> CodeSandbox Demo </a>
-* based on <a href="https://www.jsdelivr.com/package/npm/vue-round-slider">CDN</a>
-    * <a href="https://jsfiddle.net/soundar24/jc5tenva/"> JSFiddle Demo </a>
 
 ## APIs
 
@@ -140,4 +132,4 @@ new Chart('#chart',  {
 
 ## License
 
-[MIT](https://github.com/soundar24/singledivui/blob/master/LICENSE)
+[MIT](https://github.com/soundar24/SingleDivUI/blob/main/LICENSE)

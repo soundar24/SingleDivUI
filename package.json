@@ -1,14 +1,14 @@
 {
-  "name": "rollup-starter-lib",
+  "name": "singledivui",
   "version": "1.0.0",
   "author": "soundar24",
   "homepage": "https://singledivui.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/soundar24/vue-round-slider.git"
+    "url": "https://github.com/soundar24/SingleDivUI.git"
   },
   "bugs": {
-    "url": "https://github.com/soundar24/vue-round-slider/issues"
+    "url": "https://github.com/soundar24/SingleDivUI/issues"
   },
   "license": "MIT",
   "main": "dist/singledivui.min.js",
