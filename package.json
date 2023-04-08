@@ -1,8 +1,9 @@
 {
   "name": "singledivui",
   "version": "1.0.0",
+  "description": "Simple JavaScript Chart Library built with a single <div> element alone",
   "author": "soundar24",
-  "homepage": "https://singledivui.com/",
+  "homepage": "https://singledivui.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/soundar24/SingleDivUI.git"
