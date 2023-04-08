@@ -34,7 +34,7 @@ Chart.prototype = {
                 // ------ for line-chart related customizations ------
                 lineColor: null,
                 lineSize: null,
-                pointRadius: 'sdffd',
+                pointRadius: null,
                 pointColor: null,
                 pointBorderWidth: null,
                 pointBorderColor: null,
