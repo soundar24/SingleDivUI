@@ -32,6 +32,7 @@ The SingleDivUI is a simple and smallest UI components library which includes Li
 ## Table of contents
 
 - [Getting started](#getting-started)
+- [Quickstart](#quickstart)
 - [APIs](#apis)
 - [Screenshots](#screenshots)
 - [Facts](#facts)
@@ -43,6 +44,17 @@ The SingleDivUI is a simple and smallest UI components library which includes Li
 ## Getting started
 
 Refer the [Getting started](https://singledivui.com/docs/getting-started) documentation for the detailed information.
+
+## Quickstart
+
+The simple and easiest way to try and start using **SingleDivUI's** Chart component is using the editable samples from **CodePen** or **StackBlitz**. Try the below basic chart,
+* demo based on **npm**
+    * <a href="https://stackblitz.com/edit/singledivui-v1"> StackBlitz Demo </a>
+* demo based on CDN
+    * <a href="https://codepen.io/soundar24/pen/zYmGPaz"> CodePen Demo </a>
+
+
+Just fork the above samples and try to edit yourself for more customization. Also refer the [API Reference](/docs/api-reference) document to know about the available options.
 
 ## APIs
 
