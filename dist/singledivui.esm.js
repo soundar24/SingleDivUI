@@ -1,5 +1,5 @@
 /*!
- * SingleDivUI v1.0.0 | https://singledivui.com/ | (c) 2023 Soundar | MIT License
+ * SingleDivUI v1.0.0 | https://singledivui.com | (c) 2023 Soundar | MIT License
  */
 
 const math = Math;
@@ -284,12 +284,17 @@ function formatData(data, formatter) {
 
 function getMaxLabelWidth(scaleData, { labelFontSize, labelFontFamily }) {
     var fontStyle = unitValue(labelFontSize) + ' ' + labelFontFamily;
+    // most probably the last data will the biggest length one. eg., 1,2,3...1000
     var label1 = scaleData.length > 0 ? scaleData[0] : '';
+    // in floating point case, the previous data also can big. eg., ... 39.5, 40
     var label2 = scaleData.length > 1 ? scaleData[1] : '';
+    // in case of starting from negative value, first data can be big. eg., -100, ..., 0
+    var labelN = scaleData.length > 2 ? scaleData[scaleData.length - 1] : '';
     
     return math$2.max(
         calculateTextWidth(label1, fontStyle),
-        calculateTextWidth(label2, fontStyle)
+        calculateTextWidth(label2, fontStyle),
+        calculateTextWidth(labelN, fontStyle)
     );
 }
 
@@ -415,10 +420,16 @@ function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSiz
         styles[BACKGROUND + 'size'] = unitValue(columnSize) + ' 200%';
     }
     if (showPoint) {
-        if (!!pointStyle) {
-            styles['--point-color'] = `var(--${pointStyle}, var(--line-color))`;
+        if (pointStyle === 'circle-dot') {
+            styles['--dot-ratio'] = 2.5;
         }
-        styles['--point-radius'] = unitValue(pointRadius);
+        else if (pointStyle === 'circle') {
+            styles['--dot-radius'] = '0px';
+        }
+
+        if (pointRadius !== defaultPointRadius) {
+            styles['--point-radius'] = unitValue(pointRadius);
+        }
         styles['--_layer-padd-x'] = unitValue(layerPaddingX);
         styles['--_layer-padd-y'] = unitValue(layerPaddingY);
     }
@@ -554,6 +565,8 @@ Chart.prototype = {
                 pointBorderWidth: null,
                 pointBorderColor: null,
                 pointStyle: null,
+                pointInnerColor: null,
+                dotRadius: null,
 
                 // ------ for bar-chart related customizations ------
                 barSize: null,

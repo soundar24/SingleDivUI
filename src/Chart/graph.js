@@ -79,12 +79,17 @@ function formatData(data, formatter) {
 
 function getMaxLabelWidth(scaleData, { labelFontSize, labelFontFamily }) {
     var fontStyle = unitValue(labelFontSize) + ' ' + labelFontFamily;
+    // most probably the last data will the biggest length one. eg., 1,2,3...1000
     var label1 = scaleData.length > 0 ? scaleData[0] : '';
+    // in floating point case, the previous data also can big. eg., ... 39.5, 40
     var label2 = scaleData.length > 1 ? scaleData[1] : '';
+    // in case of starting from negative value, first data can be big. eg., -100, ..., 0
+    var labelN = scaleData.length > 2 ? scaleData[scaleData.length - 1] : '';
     
     return math.max(
         calculateTextWidth(label1, fontStyle),
-        calculateTextWidth(label2, fontStyle)
+        calculateTextWidth(label2, fontStyle),
+        calculateTextWidth(labelN, fontStyle)
     );
 }
 

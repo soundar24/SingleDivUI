@@ -53,10 +53,16 @@ export default function Line({ points, pointRadius, pointStyle, lineSize, isArea
         styles[BACKGROUND + 'size'] = unitValue(columnSize) + ' 200%';
     }
     if (showPoint) {
-        if (!!pointStyle) {
-            styles['--point-color'] = `var(--${pointStyle}, var(--line-color))`;
+        if (pointStyle === 'circle-dot') {
+            styles['--dot-ratio'] = 2.5;
         }
-        styles['--point-radius'] = unitValue(pointRadius);
+        else if (pointStyle === 'circle') {
+            styles['--dot-radius'] = '0px';
+        }
+
+        if (pointRadius !== defaultPointRadius) {
+            styles['--point-radius'] = unitValue(pointRadius);
+        }
         styles['--_layer-padd-x'] = unitValue(layerPaddingX);
         styles['--_layer-padd-y'] = unitValue(layerPaddingY);
     }
