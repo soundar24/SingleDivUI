@@ -82,6 +82,8 @@ new Chart('#chart',  {
             pointBorderWidth: null,
             pointBorderColor: null,
             pointStyle: null,
+            pointInnerColor: null,
+            dotRadius: null,
 
             // ------ for bar-chart related customizations ------
             barSize: null,
