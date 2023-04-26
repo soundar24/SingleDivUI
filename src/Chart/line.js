@@ -14,7 +14,7 @@ export default function Line({ points, pointRadius, pointStyle, lineSize, isArea
         pointRadius = parseFloat(pointRadius),
         pointRadius = pointRadius >= 0 ? pointRadius : defaultPointRadius,
         showPoint = pointRadius > 0,
-        showLine = !(parseFloat(lineSize) <= 0),
+        showLine = isArea || (!(parseFloat(lineSize) <= 0)),
         prevPointY;
 
     if (showPoint) {

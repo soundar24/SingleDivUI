@@ -381,7 +381,7 @@ function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSiz
         pointRadius = parseFloat(pointRadius),
         pointRadius = pointRadius >= 0 ? pointRadius : defaultPointRadius,
         showPoint = pointRadius > 0,
-        showLine = !(parseFloat(lineSize) <= 0),
+        showLine = isArea || (!(parseFloat(lineSize) <= 0)),
         prevPointY;
 
     if (showPoint) {
@@ -532,6 +532,7 @@ function Series(obj, graphObj) {
 const PLUGIN_NAME = "SingleDivUI.Chart";
 // class names
 const CLASS_PREFIX = 'sd-';
+const CLASS_CHART = CLASS_PREFIX + 'chart'; // sd-chart
 const CLASS_GRAPH = CLASS_PREFIX + 'graph'; // sd-graph
 
 Chart.prototype = {
@@ -622,7 +623,7 @@ Chart.prototype = {
         var { type, width, height, responsive } = this.options;
 
         // add the related class names to the root element
-        var classNames = CLASS_GRAPH;
+        var classNames = CLASS_CHART + ' ' + CLASS_GRAPH;
         if (type) {
             classNames += ' ' + CLASS_PREFIX + type;
         }
