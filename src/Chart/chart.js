@@ -6,6 +6,7 @@ import { querySelector, addClass, removeClass, setWidth, setHeight, isDOM, injec
 const PLUGIN_NAME = "SingleDivUI.Chart";
 // class names
 const CLASS_PREFIX = 'sd-';
+const CLASS_CHART = CLASS_PREFIX + 'chart'; // sd-chart
 const CLASS_GRAPH = CLASS_PREFIX + 'graph'; // sd-graph
 
 Chart.prototype = {
@@ -39,6 +40,8 @@ Chart.prototype = {
                 pointBorderWidth: null,
                 pointBorderColor: null,
                 pointStyle: null,
+                pointInnerColor: null,
+                dotRadius: null,
 
                 // ------ for bar-chart related customizations ------
                 barSize: null,
@@ -94,7 +97,7 @@ Chart.prototype = {
         var { type, width, height, responsive } = this.options;
 
         // add the related class names to the root element
-        var classNames = CLASS_GRAPH;
+        var classNames = CLASS_CHART + ' ' + CLASS_GRAPH;
         if (type) {
             classNames += ' ' + CLASS_PREFIX + type;
         }

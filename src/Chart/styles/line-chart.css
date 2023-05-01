@@ -1,10 +1,10 @@
 .sd-line::before, .sd-area::before, .sd-bar::before {
     display: flex;
     content: "";
-    height: calc(100% + (var(--_layer-padd-y,0px) * 2));
-    width: calc(100% + (var(--_layer-padd-x,0px) * 2));
-    top: calc(var(--_layer-padd-y,0px) * -1);
-    left: calc(var(--_layer-padd-x,0px) * -1);
+    height: calc(100% + (var(--_layer-padd-y, 0px) * 2));
+    width: calc(100% + (var(--_layer-padd-x, 0px) * 2));
+    top: calc(var(--_layer-padd-y, 0px) * -1);
+    left: calc(var(--_layer-padd-x, 0px) * -1);
 }
 
 .sd-line::before, .sd-area::before {
@@ -18,33 +18,39 @@
     --line-size: 2px;
     --line-color: #48abf9;
     --point-radius: 6px;
-    --point-color: #fff;
-    --point-border-color: var(--line-color);
-    --point-border-width: var(--line-size);
+    --point-color: inherit;
+    --point-border-color: inherit;
+    --point-border-width: inherit;
+    /* below styles only applicable to "circle-dot" pointStyle */
+    --dot-radius: calc(var(--point-radius) / var(--dot-ratio, 1));
+    --point-inner-color: transparent;
+
+    --_line-top-color: transparent;
+    --_line-bottom-color: transparent;
+    --_line-start: calc(50% - calc(var(--line-size) / 2));
+    --_line-end: calc(50% + calc(var(--line-size) / 2));
+    --line: 
+        var(--_line-bottom-color) var(--_line-start), 
+        var(--line-color) var(--_line-start), var(--line-color) var(--_line-end), 
+        var(--_line-top-color) 0%;
+
+    --_point-color: var(--point-color, var(--line-color));
+    --_point-border-color: var(--point-border-color, var(--line-color));
+    --_point-border-width: var(--point-border-width, var(--line-size));
 
     --point: radial-gradient(
         circle,
-        var(--point-color) calc(var(--point-radius) - var(--point-border-width)), 
-        var(--point-border-color) 0px, var(--point-border-color) var(--point-radius),
+        var(--_point-color) var(--dot-radius),
+        var(--point-inner-color) var(--dot-radius), var(--point-inner-color) calc(var(--point-radius) - var(--_point-border-width)),
+        var(--_point-border-color) calc(var(--point-radius) - var(--_point-border-width)), var(--_point-border-color) var(--point-radius),
         transparent 0px
     );
-
-    --line-top-color: transparent;
-    --line-bottom-color: transparent;
-    --p1: calc(50% - calc(var(--line-size) / 2));
-    --p2: calc(50% + calc(var(--line-size) / 2));
-    --line: 
-        var(--line-bottom-color) var(--p1), 
-        var(--line-color) var(--p1), var(--line-color) var(--p2), 
-        var(--line-top-color) 0%;
-
-    --circle-dot: var(--line-color) calc(var(--point-radius) - 5px), white 0px;
 }
 
 .sd-area {
     --area-color: #2196f345;
     --area-top-color: transparent;
 
-    --line-top-color: var(--area-top-color);
-    --line-bottom-color: var(--area-color);
+    --_line-top-color: var(--area-top-color);
+    --_line-bottom-color: var(--area-color);
 }
