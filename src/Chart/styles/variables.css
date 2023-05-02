@@ -18,10 +18,10 @@
     --dot-radius: calc(var(--point-radius) / var(--dot-ratio, 1));
     --point-inner-color: transparent;
 
+    /* Bar chart related styles */
+    --bar-color: #6d81f0;
+
     /* Area chart related styles */
     --area-color: #6d81f04d;
     --area-top-color: transparent;
-
-    /* Bar chart related styles */
-    --bar-color: #6d81f0;
 }
