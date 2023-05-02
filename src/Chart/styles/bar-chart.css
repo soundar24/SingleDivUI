@@ -8,8 +8,6 @@
 }
 
 .sd-bar {
-    --bar-color: #48abf9;
     --bar: linear-gradient(var(--bar-color) 100%, transparent);
-
     --_x-label-start: var(--_column-size);
 }

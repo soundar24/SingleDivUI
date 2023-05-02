@@ -15,16 +15,6 @@
 }
 
 .sd-line, .sd-area {
-    --line-size: 2px;
-    --line-color: #48abf9;
-    --point-radius: 6px;
-    --point-color: inherit;
-    --point-border-color: inherit;
-    --point-border-width: inherit;
-    /* below styles only applicable to "circle-dot" pointStyle */
-    --dot-radius: calc(var(--point-radius) / var(--dot-ratio, 1));
-    --point-inner-color: transparent;
-
     --_line-top-color: transparent;
     --_line-bottom-color: transparent;
     --_line-start: calc(50% - calc(var(--line-size) / 2));
@@ -48,9 +38,6 @@
 }
 
 .sd-area {
-    --area-color: #2196f345;
-    --area-top-color: transparent;
-
     --_line-top-color: var(--area-top-color);
     --_line-bottom-color: var(--area-color);
 }
