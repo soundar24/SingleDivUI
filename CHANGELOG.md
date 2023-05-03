@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated the default color values.
 - Updated the default values of the height, width and responsive properties.
+- Updated the pointStyle behaviour without affecting the pointColor.
+### Added
+- New props **pointInnerColor**, **dotRadius** addedd specific to "circle" and "circle-dot" point styles.
 
 ## [1.0.0] - 2023-04-08
 ### Added
