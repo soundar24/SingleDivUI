@@ -146,7 +146,8 @@ const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, forceSet)
 const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
 const isDOM = (obj) => obj && obj instanceof Element;
 
-function injectStyles(stylesJson, targetEle, styleEle) {
+function injectStyles(stylesJson, targetEle, styleEle, selector) {
+    console.log('selector', selector);
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
     if (cssStyle) {
         if (typeof targetEle === 'string') {
@@ -156,7 +157,17 @@ function injectStyles(stylesJson, targetEle, styleEle) {
             targetEle = DOCUMENT.head;  // fallback
         }
         var cssTextEle = DOCUMENT.createTextNode(cssStyle);
-        styleEle = styleEle || DOCUMENT.createElement('style');
+        if (!styleEle) {
+            var styleSelector = '';
+            if (selector) {
+                styleSelector = '#sd-styles' + selector.replace('#', '-').replace('.', '_');
+
+                // check for previous style element and remove it
+                var oldStyleEle = DOCUMENT.querySelector(styleSelector);
+                if (oldStyleEle) oldStyleEle.remove();
+            }
+            styleEle = createElement('style' + styleSelector);
+        }
         targetEle.appendChild(styleEle);
         styleEle.appendChild(cssTextEle);
     }
@@ -205,6 +216,13 @@ function applyStyles(jsonObj, inline) {
 function updateClass(el, mode, classNames) {
     classNames && classNames.split(' ').forEach(name => el.classList[mode](name));
     return classNames;
+}
+
+function createElement(tag) {
+    var t = tag.split('#');
+    var ele = DOCUMENT.createElement(t[0]);
+    if (t[1]) ele.id = t[1];
+    return ele;
 }
 
 const math$2 = Math;
@@ -670,7 +688,7 @@ Chart.prototype = {
         var styles = this._generateStyles(graph, series, type);
 
         // inject the generated styles into DOM
-        this.styleEle = injectStyles(styles, options.stylesAppendTo, this.styleEle);
+        this.styleEle = injectStyles(styles, options.stylesAppendTo, this.styleEle, this.selector);
     },
 
     _generateStyles: function (graph, series, type) {
@@ -776,7 +794,7 @@ function Chart(selector, options) {
     }
 
     this.control = control;
-    this.selector = strSelector || control.tagName.toLowerCase();
+    this.selector = strSelector;
     // save the instance on the element for the future reference
     control[PLUGIN_NAME] = this;
 

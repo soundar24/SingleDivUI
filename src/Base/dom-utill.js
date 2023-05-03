@@ -7,7 +7,8 @@ export const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, fo
 export const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
 export const isDOM = (obj) => obj && obj instanceof Element;
 
-export function injectStyles(stylesJson, targetEle, styleEle) {
+export function injectStyles(stylesJson, targetEle, styleEle, selector) {
+    console.log('selector', selector);
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
     if (cssStyle) {
         if (typeof targetEle === 'string') {
@@ -17,7 +18,17 @@ export function injectStyles(stylesJson, targetEle, styleEle) {
             targetEle = DOCUMENT.head;  // fallback
         }
         var cssTextEle = DOCUMENT.createTextNode(cssStyle);
-        styleEle = styleEle || DOCUMENT.createElement('style');
+        if (!styleEle) {
+            var styleSelector = '';
+            if (selector) {
+                styleSelector = '#sd-styles' + selector.replace('#', '-').replace('.', '_');
+
+                // check for previous style element and remove it
+                var oldStyleEle = DOCUMENT.querySelector(styleSelector);
+                if (oldStyleEle) oldStyleEle.remove();
+            }
+            styleEle = createElement('style' + styleSelector);
+        }
         targetEle.appendChild(styleEle);
         styleEle.appendChild(cssTextEle);
     }
@@ -66,4 +77,11 @@ function applyStyles(jsonObj, inline) {
 function updateClass(el, mode, classNames) {
     classNames && classNames.split(' ').forEach(name => el.classList[mode](name));
     return classNames;
+}
+
+function createElement(tag) {
+    var t = tag.split('#');
+    var ele = DOCUMENT.createElement(t[0]);
+    if (t[1]) ele.id = t[1];
+    return ele;
 }
