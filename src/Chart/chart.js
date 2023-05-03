@@ -80,9 +80,9 @@ Chart.prototype = {
             }
         },
 
-        height: 220,
-        width: 500,
-        responsive: false,
+        height: 260,
+        width: '100%',
+        responsive: true,
 
         stylesAppendTo: 'head'
     },
