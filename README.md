@@ -123,16 +123,16 @@ new Chart('#chart',  {
         }
     },
 
-    height: 220,
-    width: 500,
-    responsive: false,
+    height: 260,
+    width: '100%',
+    responsive: true,
     stylesAppendTo: 'head'
 });
 ```
 
 ## Demos
 
-Refer the [Demos](https://singledivui.com/demos/line-chart/basic) section to checkout the multiple demos samples and customizations.
+Refer the [Demos](https://singledivui.com/demos/line-chart/basic) section to check out multiple demo samples and customizations.
 
 ## Screenshots
 
@@ -141,7 +141,7 @@ Refer the [Demos](https://singledivui.com/demos/line-chart/basic) section to che
 ![singledivui - line chart, bar chart, area chart - customization](/assets/Screenshot-2.png)
 
 ## Facts
-- The complete rendering done by CSS, and inside a single div alone
+- The complete rendering was done by CSS, and inside a single div alone
 - The size of the library is very small with no dependencies
 - No built-in interactions, based on the requirement it can be added in the near future
 - No animation, but still CSS transition will works on dynamic data update
