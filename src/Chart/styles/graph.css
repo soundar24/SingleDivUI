@@ -23,14 +23,6 @@
     background-position-x: calc(var(--_start-position) + (var(--_column-size) - (var(--_y-grid-line-size) / 2)));
     background-position-y: calc(var(--_row-size) - (var(--_y-grid-line-size) / 2));
 }
-.sd-graph {
-    --axis-line-color: #5c5c5c;
-    --grid-line-color: #ddd;
-    --label-color: #4e4e4e;
-    --grid-line-size: 1px;
-    --axis-line-size: 1px;
-    --label-distance: 10px;
-}
 
 .sd-graph::before, .sd-graph::after {
     display: flex;

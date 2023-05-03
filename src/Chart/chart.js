@@ -80,9 +80,9 @@ Chart.prototype = {
             }
         },
 
-        height: 220,
-        width: 500,
-        responsive: false,
+        height: 260,
+        width: '100%',
+        responsive: true,
 
         stylesAppendTo: 'head'
     },
@@ -144,7 +144,7 @@ Chart.prototype = {
         var styles = this._generateStyles(graph, series, type);
 
         // inject the generated styles into DOM
-        this.styleEle = injectStyles(styles, options.stylesAppendTo, this.styleEle);
+        this.styleEle = injectStyles(styles, options.stylesAppendTo, this.styleEle, this.selector);
     },
 
     _generateStyles: function (graph, series, type) {
@@ -250,7 +250,7 @@ function Chart(selector, options) {
     }
 
     this.control = control;
-    this.selector = strSelector || control.tagName.toLowerCase();
+    this.selector = strSelector;
     // save the instance on the element for the future reference
     control[PLUGIN_NAME] = this;
 
