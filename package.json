@@ -1,6 +1,6 @@
 {
   "name": "singledivui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple JavaScript Chart Library built with a single <div> element alone",
   "author": "soundar24",
   "homepage": "https://singledivui.com",
@@ -23,7 +23,6 @@
   "license": "MIT",
   "main": "dist/singledivui.min.js",
   "module": "dist/singledivui.esm.js",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",

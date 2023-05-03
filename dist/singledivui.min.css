@@ -1,5 +1,5 @@
 /*!
- * SingleDivUI v1.0.0 | https://singledivui.com | (c) 2023 Soundar | MIT License
+ * SingleDivUI v1.0.1 | https://singledivui.com | (c) 2023 Soundar | MIT License
  */
 
 .sd-chart{--axis-line-color:#5c5c5c;--grid-line-color:#ddd;--label-color:#4e4e4e;--grid-line-size:1px;--axis-line-size:1px;--label-distance:10px;--line-size:2px;--line-color:#6d81f0;--point-radius:6px;--point-color:inherit;--point-border-color:inherit;--point-border-width:inherit;--dot-radius:calc(var(--point-radius) / var(--dot-ratio, 1));--point-inner-color:transparent;--bar-color:#6d81f0;--area-color:#6d81f04d;--area-top-color:transparent}
