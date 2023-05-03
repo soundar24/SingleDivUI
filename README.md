@@ -34,6 +34,7 @@ The SingleDivUI is a simple and smallest UI components library which includes Li
 - [Getting started](#getting-started)
 - [Quickstart](#quickstart)
 - [APIs](#apis)
+- [Demos](#demos)
 - [Screenshots](#screenshots)
 - [Facts](#facts)
 - [License](#license)
@@ -128,6 +129,10 @@ new Chart('#chart',  {
     stylesAppendTo: 'head'
 });
 ```
+
+## Demos
+
+Refer the [Demos](https://singledivui.com/demos/line-chart/basic) section to checkout the multiple demos samples and customizations.
 
 ## Screenshots
 
