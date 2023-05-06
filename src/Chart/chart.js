@@ -1,7 +1,7 @@
 import Graph from './graph';
 import Series from './series';
 import { deepExtend, throttle } from '../Base/util';
-import { querySelector, addClass, removeClass, setWidth, setHeight, isDOM, injectStyles } from '../Base/dom-utill';
+import { querySelector, addClass, removeClass, setWidth, setHeight, isDOM, isVisible, injectStyles } from '../Base/dom-utill';
 
 const PLUGIN_NAME = "SingleDivUI.Chart";
 // class names
@@ -177,6 +177,7 @@ Chart.prototype = {
 
     // public methods
     update: function (options) {
+        if (!options) return;
         deepExtend(this.options, options);
         this.refresh();
     },
@@ -234,6 +235,10 @@ function Chart(selector, options) {
     if (!isDOM(control)) {
         console.error(PLUGIN_NAME + `: Element(${selector}) is not available!`);
         return;
+    }
+    if (!isVisible(control)) {
+        console.warn(PLUGIN_NAME + ': Element seems not visible in the DOM, this might cause the styling issues!\n\n' +
+            'To resolve that call the refresh method when the Chart become visible in the DOM. \n', control);
     }
 
     // try to get the chart instance from the elment

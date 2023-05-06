@@ -6,6 +6,7 @@ export const removeClass = (el, classNames) => updateClass(el, 'remove', classNa
 export const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, forceSet);
 export const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
 export const isDOM = (obj) => obj && obj instanceof Element;
+export const isVisible = (obj) => !!obj.offsetParent;
 
 export function injectStyles(stylesJson, targetEle, styleEle, selector) {
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
