@@ -1,5 +1,5 @@
 
-export const DOCUMENT = document;
+export const DOCUMENT = typeof document !== 'undefined' ? document : {};
 export const querySelector = (selector) => DOCUMENT.querySelector(selector);
 export const addClass = (el, classNames) => updateClass(el, 'add', classNames);
 export const removeClass = (el, classNames) => updateClass(el, 'remove', classNames);
@@ -8,7 +8,6 @@ export const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, 
 export const isDOM = (obj) => obj && obj instanceof Element;
 
 export function injectStyles(stylesJson, targetEle, styleEle, selector) {
-    console.log('selector', selector);
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
     if (cssStyle) {
         if (typeof targetEle === 'string') {
