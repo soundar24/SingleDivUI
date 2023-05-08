@@ -1,7 +1,10 @@
 import Graph from './graph';
 import Series from './series';
 import { deepExtend, throttle } from '../Base/util';
-import { querySelector, addClass, removeClass, setWidth, setHeight, isDOM, isVisible, injectStyles } from '../Base/dom-utill';
+import {
+    querySelector, addClass, removeClass, setWidth, setHeight,
+    removeAttribute, isDOM, isVisible, getUniqueKey, injectStyles
+} from '../Base/dom-utill';
 
 const PLUGIN_NAME = "SingleDivUI.Chart";
 // class names
@@ -198,7 +201,7 @@ Chart.prototype = {
 
         // remove all the inline styles that added
         if (this.options.stylesAppendTo === 'inline') {
-            chart.removeAttribute('style');
+            removeAttribute(chart, 'style');
         }
         else {
             setWidth(chart, '', true);
@@ -218,6 +221,9 @@ Chart.prototype = {
         if (destroy) {
             styleEle && styleEle.remove();
             this.styleEle = null;
+
+            // remove the uniqueKey if anything generated
+            removeAttribute(chart, this._uniKey);
 
             // remove the plugin instance that saved on the element
             delete chart[PLUGIN_NAME];
@@ -250,8 +256,14 @@ function Chart(selector, options) {
     }
 
     if (!strSelector) {
-        var id = control.id;
-        strSelector = id ? '#' + id : '';
+        if (control.id) {
+            strSelector = '#' + control.id;
+        }
+        else {
+            var uniqueKey = this._uniKey = 'data-sd-' + getUniqueKey();
+            control.setAttribute(uniqueKey, '');
+            strSelector = `[${uniqueKey}]`;
+        }        
     }
 
     this.control = control;

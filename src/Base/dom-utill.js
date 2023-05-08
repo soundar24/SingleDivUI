@@ -5,8 +5,13 @@ export const addClass = (el, classNames) => updateClass(el, 'add', classNames);
 export const removeClass = (el, classNames) => updateClass(el, 'remove', classNames);
 export const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, forceSet);
 export const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
+export const removeAttribute = (el, attr) => attr && el.removeAttribute(attr);
 export const isDOM = (obj) => obj && obj instanceof Element;
 export const isVisible = (obj) => !!obj.offsetParent;
+
+export function getUniqueKey() {
+    return Math.random().toString(16).slice(2, 10);
+}
 
 export function injectStyles(stylesJson, targetEle, styleEle, selector) {
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
