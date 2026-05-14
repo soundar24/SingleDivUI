@@ -1,7 +1,10 @@
 import Graph from './graph';
 import Series from './series';
 import { deepExtend, throttle } from '../Base/util';
-import { querySelector, addClass, removeClass, setWidth, setHeight, isDOM, injectStyles } from '../Base/dom-utill';
+import {
+    querySelector, addClass, removeClass, setWidth, setHeight,
+    removeAttribute, isDOM, isVisible, getUniqueKey, injectStyles
+} from '../Base/dom-utill';
 
 const PLUGIN_NAME = "SingleDivUI.Chart";
 // class names
@@ -177,6 +180,7 @@ Chart.prototype = {
 
     // public methods
     update: function (options) {
+        if (!options) return;
         deepExtend(this.options, options);
         this.refresh();
     },
@@ -197,7 +201,7 @@ Chart.prototype = {
 
         // remove all the inline styles that added
         if (this.options.stylesAppendTo === 'inline') {
-            chart.removeAttribute('style');
+            removeAttribute(chart, 'style');
         }
         else {
             setWidth(chart, '', true);
@@ -218,6 +222,9 @@ Chart.prototype = {
             styleEle && styleEle.remove();
             this.styleEle = null;
 
+            // remove the uniqueKey if anything generated
+            removeAttribute(chart, this._uniKey);
+
             // remove the plugin instance that saved on the element
             delete chart[PLUGIN_NAME];
         }
@@ -235,6 +242,10 @@ function Chart(selector, options) {
         console.error(PLUGIN_NAME + `: Element(${selector}) is not available!`);
         return;
     }
+    if (!isVisible(control)) {
+        console.warn(PLUGIN_NAME + ': Element seems not visible in the DOM, this might cause the styling issues!\n\n' +
+            'To resolve that call the refresh method when the Chart become visible in the DOM. \n', control);
+    }
 
     // try to get the chart instance from the elment
     // to confirm whether the chart already got initialized
@@ -245,8 +256,14 @@ function Chart(selector, options) {
     }
 
     if (!strSelector) {
-        var id = control.id;
-        strSelector = id ? '#' + id : '';
+        if (control.id) {
+            strSelector = '#' + control.id;
+        }
+        else {
+            var uniqueKey = this._uniKey = 'data-sd-' + getUniqueKey();
+            control.setAttribute(uniqueKey, '');
+            strSelector = `[${uniqueKey}]`;
+        }        
     }
 
     this.control = control;
