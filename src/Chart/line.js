@@ -2,7 +2,7 @@ import { convertRange, calculateAngle, unitValue } from '../Base/util';
 
 const BACKGROUND = '--background-';
 
-export default function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSize, yMin, yMax, chartMax, startPosition }
+export default function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSize, yMin, yMax, chartHeight, startPosition }
 ) {
     var defaultPointRadius = isArea ? 0 : 6,
         backgroundImage = [],
@@ -24,7 +24,7 @@ export default function Line({ points, pointRadius, pointStyle, lineSize, isArea
     }
 
     points.forEach((point, index) => {
-        var pointY = convertRange(point, yMin, yMax, 0, chartMax) + layerPaddingY;
+        var pointY = convertRange(point, yMin, yMax, 0, chartHeight) + layerPaddingY;
 
         if (showPoint) {
             var doubleIndex = index * 2;

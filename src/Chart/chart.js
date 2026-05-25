@@ -68,7 +68,16 @@ Chart.prototype = {
             xAxis: {
                 verticalLabel: false,
                 padding: [0, 0],
-                labelFormatter: null
+                labelFormatter: null,
+
+                maxTicks: 10,
+                startFromZero: false,
+
+                customScale: {
+                    min: null,
+                    max: null,
+                    interval: null
+                }
             },
             yAxis: {
                 maxTicks: 10,
@@ -133,6 +142,17 @@ Chart.prototype = {
         var chartWidth = this.chartWidth = chart.clientWidth;
         var xAxisData = data.labels;
         var yAxisData = seriesObj.points;
+
+        // bubble chart uses true XY coordinates
+        if (type === 'bubble') {
+            xAxisData = seriesObj.points.map(function(p) {
+                return (p !== null && typeof p === 'object') ? p.x : p;
+            });
+
+            yAxisData = seriesObj.points.map(function(p) {
+                return (p !== null && typeof p === 'object') ? p.y : p;
+            });
+        }
 
         // bar chart needs an additional column, since each bar renders in-between the column
         var needExtraColumn = (type === 'bar');

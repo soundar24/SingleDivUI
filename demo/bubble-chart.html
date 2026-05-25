@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Bubble Chart</title>
+</head>
+
+<body>
+    <link href="../dist/singledivui.min.css" rel="stylesheet" />
+    <script src="../dist/singledivui.min.js"></script>
+
+    <h1>SingleDivUI</h1>
+
+    <div class="row">
+        <div class="cell">
+            <h2>Bubble Chart</h2>
+            <div id="chart1"></div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            padding: 10px 35px;
+            font-family: Verdana, Arial, sans-serif;
+        }
+        .row {
+            display: flex;
+        }
+        .cell {
+            padding: 0px 35px;
+        }
+    </style>
+
+    <script>
+        const { Chart } = SingleDivUI;
+
+        new Chart('#chart1', {
+            type: 'bubble',
+            height: 200,
+            width: 400,
+
+            data: {
+                series: {
+                    points: [
+                        { x: 0, y: 30, r: 15 },
+                        { x: 1, y: 60, r: 25 },
+                        { x: 2, y: 45, r: 40 },
+
+                        // { x: 2, y: 5, r: 10 },
+                        // { x: 2, y: 25, r: 10 },
+
+                        { x: 3, y: 80, r: 30 },
+                        { x: 4, y: 55, r: 20 }
+                    ],
+
+                    bubbleColor: '#6d81f0',
+                    bubbleBorderColor: '#4a5fd4',
+                    bubbleBorderWidth: '2px',
+                    bubbleOpacity: 0.7
+                }
+            },
+            graphSettings: {
+                yAxis: { startFromZero: true }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

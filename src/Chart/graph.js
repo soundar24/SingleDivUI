@@ -60,7 +60,8 @@ export default function Graph(height, width, xData, yData, graphSettings, extraC
         row, col,
         rowSize, columnSize,
         yMin, yMax,
-        chartMax: height,
+        chartHeight: height,
+        chartWidth: width,
         startPosition,
         styles: {
             common: commonStyles,
