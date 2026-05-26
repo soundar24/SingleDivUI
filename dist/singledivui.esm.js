@@ -1,5 +1,5 @@
 /*!
- * SingleDivUI v1.0.1 | https://singledivui.com | (c) 2023 Soundar | MIT License
+ * SingleDivUI v1.0.1 | https://singledivui.com | (c) 2023-2026 Soundar | MIT License
  */
 
 const math = Math;
@@ -23,12 +23,13 @@ function LinearScale(minPoint, maxPoint, maxTicks, stepSize) {
   for(let i=0; i<=count; i++) {
     result.push(lBound + (i * stepSize));
   }
-  result.reverse();
+  var reverseScale = result.slice().reverse();
 
   return {
     min: lBound,
-    max: result[0],
+    max: reverseScale[0],
     scale: result,
+    reverseScale,
     step: stepSize
   };
 }
@@ -138,16 +139,21 @@ function throttle(func, interval, context) {
     }
  }
 
-const DOCUMENT = document;
+const DOCUMENT = typeof document !== 'undefined' ? document : {};
 const querySelector = (selector) => DOCUMENT.querySelector(selector);
 const addClass = (el, classNames) => updateClass(el, 'add', classNames);
 const removeClass = (el, classNames) => updateClass(el, 'remove', classNames);
 const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, forceSet);
 const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
+const removeAttribute = (el, attr) => attr && el.removeAttribute(attr);
 const isDOM = (obj) => obj && obj instanceof Element;
+const isVisible = (obj) => !!obj.offsetParent;
+
+function getUniqueKey() {
+    return Math.random().toString(16).slice(2, 10);
+}
 
 function injectStyles(stylesJson, targetEle, styleEle, selector) {
-    console.log('selector', selector);
     var cssStyle = applyStyles(stylesJson, (targetEle === 'inline'));
     if (cssStyle) {
         if (typeof targetEle === 'string') {
@@ -226,33 +232,51 @@ function createElement(tag) {
 }
 
 const math$2 = Math;
-const isNumber = (val) => !isNaN(parseFloat(val));
+const isNumber = (val) => Number.isFinite(Number(val));
 const WHITESPACE_CHAR = '&#160;';
 
-function Graph(height, width, xData, yData, graphSettings, extraColumn) {
+function Graph(height, width, xData, yData, graphSettings, type) {
     var { xAxis = {}, yAxis = {} } = graphSettings;
     var xAxisSetting = Object.assign({}, graphSettings, xAxis);
     var yAxisSetting = Object.assign({}, graphSettings, yAxis);
 
-    var paddingX = xAxisSetting.padding;
-    paddingX = (paddingX instanceof Array) ? paddingX : [0, 0];
-    var pLeft = paddingX[0] || 0, pRight = paddingX[1] || 0;
-    if (extraColumn) pLeft += 1;
+    var isCategoricalXAxis = (type !== 'bubble');
+    // bar chart needs an additional column, since each bar renders in-between the column
+    var needExtraColumn = (type === 'bar');
 
-    // generate scale-y (based on the scale only we can calculate the row and rowSize)
-    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting);
-    var row = scaleY.length - 1, rowSize = height / row;
-    var col = (xData.length - 1) + (pLeft + pRight), columnSize = width / col;
+    var paddingX = xAxisSetting.padding;
+    paddingX = Array.isArray(paddingX) ? paddingX : [0, 0];
+    var pLeft = paddingX[0] || 0, pRight = paddingX[1] || 0;
+    if (needExtraColumn) pLeft += 1;
+
+    var col, xMin, xMax, scaleXData;
+    if (isCategoricalXAxis) {
+        // label/index based logic for x-axis
+        xMin = 0, xMax = xData.length - 1, scaleXData = xData;
+        col = (xMax - xMin) + (pLeft + pRight);
+    }
+    else {
+        // bubble chart uses scale based x-axis
+        ({ min: xMin, max: xMax, scale: scaleXData } = generateScale(xData, xAxisSetting));
+        col = scaleXData.length - 1 + (pLeft + pRight);
+    }
+
+    var columnSize = width / col;
     // to round the nearby value of 0.5
     // this is crucial part, since round-off the columnSize might lead the gap inbetween area
     columnSize = Math.floor(columnSize / 0.5) * 0.5;
 
+    // generate scale-y (based on the scale only we can calculate the row and rowSize)
+    var { min: yMin, max: yMax, reverseScale: scaleY } = generateScale(yData, yAxisSetting);
+    var row = scaleY.length - 1;
+    var rowSize = height / row;
+
     // format the X and Y labels, if the formatter is available
     scaleY = formatData(scaleY, yAxisSetting.labelFormatter);
-    xData = formatData(xData, xAxisSetting.labelFormatter);
+    scaleXData = formatData(scaleXData, xAxisSetting.labelFormatter);
 
     // generate scale-x
-    var scaleX = generateScaleX(xData, columnSize, xAxisSetting);
+    var scaleX = generateScaleX(scaleXData, columnSize, xAxisSetting);
 
     var startPosition = columnSize * pLeft;
     var yLabelWidth = getMaxLabelWidth(scaleY, yAxisSetting);
@@ -282,8 +306,10 @@ function Graph(height, width, xData, yData, graphSettings, extraColumn) {
     return {
         row, col,
         rowSize, columnSize,
+        xMin, xMax,
         yMin, yMax,
-        chartMax: height,
+        chartHeight: height,
+        chartWidth: width,
         startPosition,
         styles: {
             common: commonStyles,
@@ -349,7 +375,7 @@ function generateScaleX(xData, columnSize, { labelFontSize, labelFontFamily, ver
     return xLabel;
 }
 
-function generateScaleY(data, { maxTicks, startFromZero, customScale }) {
+function generateScale(data, { maxTicks, startFromZero, customScale }) {
     var minValue, maxValue, step;
     var { min, max, interval } = customScale;
     if (isNumber(min)) minValue = parseFloat(min);
@@ -387,7 +413,7 @@ function convertPropsToStyles(xAxisSetting, yAxisSetting) {
 
 const BACKGROUND = '--background-';
 
-function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSize, yMin, yMax, chartMax, startPosition }
+function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSize, yMin, yMax, chartHeight, startPosition }
 ) {
     var defaultPointRadius = isArea ? 0 : 6,
         backgroundImage = [],
@@ -409,7 +435,7 @@ function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSiz
     }
 
     points.forEach((point, index) => {
-        var pointY = convertRange(point, yMin, yMax, 0, chartMax) + layerPaddingY;
+        var pointY = convertRange(point, yMin, yMax, 0, chartHeight) + layerPaddingY;
 
         if (showPoint) {
             var doubleIndex = index * 2;
@@ -458,7 +484,7 @@ function Line({ points, pointRadius, pointStyle, lineSize, isArea }, { columnSiz
 const BACKGROUND$1 = '--background-';
 const defaultBarSize = '60%';
 
-function Bar({ points, barSize, barColor }, { yMin, yMax, chartMax, columnSize, startPosition }) {
+function Bar({ points, barSize, barColor }, { yMin, yMax, chartHeight, columnSize, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPositionX = [],
@@ -481,7 +507,7 @@ function Bar({ points, barSize, barColor }, { yMin, yMax, chartMax, columnSize, 
     };
 
     points.forEach((point, index) => {
-        var barHeight = convertRange(point, yMin, yMax, 0, chartMax);
+        var barHeight = convertRange(point, yMin, yMax, 0, chartHeight);
         if (!(barHeight >= 0)) barHeight = 0; // '>=' is to handle the NaN as well
         var barPosition = (columnSize * index) + barStart;
 
@@ -518,10 +544,47 @@ function Area(areaObj, graphObj) {
     return new Line(areaObj, graphObj);
 }
 
+const defaultBubbleRadius = 10;
+
+function Bubble({ points }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
+    var backgroundImage = [],
+        backgroundSize = [],
+        backgroundPosition = [],
+        styles = {};
+
+    points.forEach(function(point) {
+        if (typeof point !== 'object') {
+            return;
+        }
+
+        // convert the point x, y coordinate to the bubble position in the chart
+        var bubbleX = convertRange(point.x, xMin, xMax, 0, chartWidth);
+        var bubbleY = convertRange(point.y, yMin, yMax, 0, chartHeight);
+
+        var radius = point.r || defaultBubbleRadius;
+        var diameter = radius * 2;
+
+        // final render positions
+        var posX = startPosition + bubbleX - radius;
+        var posY = chartHeight - bubbleY - radius;
+
+        backgroundImage.push('var(--bubble)');
+        backgroundSize.push(unitValue(diameter) + ' ' + unitValue(diameter));
+        backgroundPosition.push(unitValue(posX) + ' ' + unitValue(posY));
+    });
+
+    styles['--background-image'] = backgroundImage.join(', ');
+    styles['--background-size'] = backgroundSize.join(', ');
+    styles['--background-position'] = backgroundPosition.join(', ');
+
+    return styles;
+}
+
 const series = {
     line: Line,
     bar: Bar,
-    area: Area
+    area: Area,
+    bubble: Bubble
 };
 
 // barSize - this value directly used in bar, so this can be ignored
@@ -592,7 +655,12 @@ Chart.prototype = {
                 barColor: null,
 
                 // ------ for area-chart related customizations ------
-                areaColor: null
+                areaColor: null,
+
+                // ------ for bubble-chart related customizations ------
+                bubbleColor: null,
+                bubbleBorderColor: null,
+                bubbleBorderWidth: null,
             },
         },
 
@@ -609,7 +677,16 @@ Chart.prototype = {
             xAxis: {
                 verticalLabel: false,
                 padding: [0, 0],
-                labelFormatter: null
+                labelFormatter: null,
+
+                maxTicks: 10,
+                startFromZero: false,
+
+                customScale: {
+                    min: null,
+                    max: null,
+                    interval: null
+                }
             },
             yAxis: {
                 maxTicks: 10,
@@ -675,11 +752,14 @@ Chart.prototype = {
         var xAxisData = data.labels;
         var yAxisData = seriesObj.points;
 
-        // bar chart needs an additional column, since each bar renders in-between the column
-        var needExtraColumn = (type === 'bar');
+        // bubble chart uses true XY coordinates
+        if (type === 'bubble') {
+            xAxisData = seriesObj.points.map((p) => p.x);
+            yAxisData = seriesObj.points.map((p) => p.y);
+        }
 
         // render the Graph
-        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, needExtraColumn);
+        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, type);
 
         // render the Series
         var series = new Series(seriesObj, graph);
@@ -721,6 +801,7 @@ Chart.prototype = {
 
     // public methods
     update: function (options) {
+        if (!options) return;
         deepExtend(this.options, options);
         this.refresh();
     },
@@ -741,7 +822,7 @@ Chart.prototype = {
 
         // remove all the inline styles that added
         if (this.options.stylesAppendTo === 'inline') {
-            chart.removeAttribute('style');
+            removeAttribute(chart, 'style');
         }
         else {
             setWidth(chart, '', true);
@@ -762,6 +843,9 @@ Chart.prototype = {
             styleEle && styleEle.remove();
             this.styleEle = null;
 
+            // remove the uniqueKey if anything generated
+            removeAttribute(chart, this._uniKey);
+
             // remove the plugin instance that saved on the element
             delete chart[PLUGIN_NAME];
         }
@@ -779,6 +863,10 @@ function Chart(selector, options) {
         console.error(PLUGIN_NAME + `: Element(${selector}) is not available!`);
         return;
     }
+    if (!isVisible(control)) {
+        console.warn(PLUGIN_NAME + ': Element seems not visible in the DOM, this might cause the styling issues!\n\n' +
+            'To resolve that call the refresh method when the Chart become visible in the DOM. \n', control);
+    }
 
     // try to get the chart instance from the elment
     // to confirm whether the chart already got initialized
@@ -789,8 +877,14 @@ function Chart(selector, options) {
     }
 
     if (!strSelector) {
-        var id = control.id;
-        strSelector = id ? '#' + id : '';
+        if (control.id) {
+            strSelector = '#' + control.id;
+        }
+        else {
+            var uniqueKey = this._uniKey = 'data-sd-' + getUniqueKey();
+            control.setAttribute(uniqueKey, '');
+            strSelector = `[${uniqueKey}]`;
+        }        
     }
 
     this.control = control;
