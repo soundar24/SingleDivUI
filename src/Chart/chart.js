@@ -51,7 +51,12 @@ Chart.prototype = {
                 barColor: null,
 
                 // ------ for area-chart related customizations ------
-                areaColor: null
+                areaColor: null,
+
+                // ------ for bubble-chart related customizations ------
+                bubbleColor: null,
+                bubbleBorderColor: null,
+                bubbleBorderWidth: null,
             },
         },
 

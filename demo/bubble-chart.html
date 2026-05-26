@@ -18,6 +18,11 @@
             <h2>Bubble Chart</h2>
             <div id="chart1"></div>
         </div>
+
+        <div class="cell">
+            <h2>Bubble Chart</h2>
+            <div id="chart2"></div>
+        </div>
     </div>
 
     <!-- <div id="circle1" style="height: 20px;width: 20px;position: absolute;background: #ff000054;border-radius: 100%;top: 258px;left: 740px;z-index: 10000;"></div>
@@ -31,16 +36,77 @@
         }
         .row {
             display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
         .cell {
             padding: 0px 35px;
+        }
+
+        #chart2 {
+            --bubble-color: #f443364d;
+            --bubble-border-color: #F44336;
         }
     </style>
 
     <script>
         const { Chart } = SingleDivUI;
 
+        function renderBubbleChart(id, points) {
+            new Chart(`#${id}`, {
+                type: 'bubble',
+                height: 260,
+                width: 520,
+
+                data: {
+                    series: {
+                        points,
+                    }
+                }
+            });
+        }
+
+
         const points1 = [
+            { x: 2,  y: 9, r: 5  },
+            { x: 6,  y: 15, r: 8  },
+            { x: 5,  y: 28, r: 14 },
+            { x: 8,  y: 42, r: 18 },
+            { x: 15, y: 37, r: 10 },
+
+            { x: 15, y: 65, r: 30 },
+            { x: 18, y: 22, r: 12 },
+            { x: 25, y: 40, r: 14 },
+
+            { x: 30, y: 88, r: 36 },
+            { x: 35, y: 55, r: 22 },
+            { x: 42, y: 18, r: 9  },
+
+            { x: 42, y: 76, r: 22 },
+            { x: 48, y: 105, r: 18 },
+            { x: 60, y: 114, r: 10 },
+            { x: 50, y: 32, r: 14 },
+            { x: 58, y: 70, r: 52 },
+            { x: 65, y: 48, r: 22 },
+
+            { x: 68, y: 88, r: 30 },
+            { x: 78, y: 98, r: 12 },
+            { x: 75, y: 60, r: 11 },
+            { x: 85, y: 68, r: 24 },
+            { x: 80, y: 40, r: 18 },
+
+            { x: 88, y: 105, r: 10 },
+            { x: 95, y: 85, r: 14 },
+            { x: 98, y: 115, r: 7 },
+
+            { x: 81, y: 112, r: 10 },
+            { x: 95, y: 105, r: 4 },
+            { x: 92, y: 111, r: 6 },
+            { x: 98, y: 108, r: 2 },
+            { x: 86, y: 115, r: 5 },
+        ];
+
+        const points2 = [
             { x: 2,  y: 9, r: 5  },
             { x: 6,  y: 15, r: 8  },
             { x: 5,  y: 28, r: 14 },
@@ -76,7 +142,7 @@
             { x: 86, y: 115, r: 5 },
         ];
 
-        const points2 = [
+        const points3 = [
             // { x: 0, y: 30, r: 15 },
             { x: 10, y: 60, r: 25 },
             { x: 20, y: 45, r: 40 },
@@ -103,36 +169,8 @@
             // { x: 40, y: 55, r: 20 }
         ];
 
-        new Chart('#chart1', {
-            type: 'bubble',
-            height: 260,
-            width: 520,
-
-            data: {
-                series: {
-                    points: points1,
-                    // points: points2,
-
-                    // bubbleColor: '#6d81f0ab',
-                    // bubbleBorderColor: '#4a5fd4',
-                    // bubbleBorderWidth: 1
-                }
-            },
-            graphSettings: {
-                xAxis: {
-                    // startFromZero: true,
-                    // padding: [1, 1],
-
-                    // customScale: {
-                    //     min: 50,
-                    //     max: 203,
-                    //     interval: 50
-                    // }
-                },
-                // yAxis: { startFromZero: true }
-            }
-        });
-
+        renderBubbleChart('chart1', points1);
+        renderBubbleChart('chart2', points2);
     </script>
 </body>
 

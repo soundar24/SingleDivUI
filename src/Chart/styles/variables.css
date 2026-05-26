@@ -26,7 +26,7 @@
     --area-top-color: transparent;
 
     /* Bubble chart related styles */
-    --bubble-color: #6d81f0;
-    --bubble-border-color: #6d81f0;
-    --bubble-border-width: 2px;
+    --bubble-color: #6d81f091;
+    --bubble-border-color: #4a5fd4;
+    --bubble-border-width: 1px;
 }
