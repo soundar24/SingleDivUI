@@ -1,0 +1,20 @@
+.sd-scatter::before {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    background-image: var(--background-image);
+    background-size: calc(var(--scatter-radius) * 2) calc(var(--scatter-radius) * 2);
+    background-position: var(--background-position);
+    background-repeat: no-repeat;
+}
+
+.sd-scatter {
+    --_scatter-size: 70%;
+    --scatter: radial-gradient(
+        circle,
+        var(--scatter-color) var(--_scatter-size),
+        transparent var(--_scatter-size)
+    );
+}

@@ -2,13 +2,15 @@ import Line from './line';
 import Bar from './bar';
 import Area from './area';
 import Bubble from './bubble';
+import Scatter from './scatter';
 import { convertObjToStyles } from './../Base/util';
 
 const series = {
     line: Line,
     bar: Bar,
     area: Area,
-    bubble: Bubble
+    bubble: Bubble,
+    scatter: Scatter
 }
 
 // barSize - this value directly used in bar, so this can be ignored

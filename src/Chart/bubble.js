@@ -2,7 +2,7 @@ import { convertRange, unitValue } from '../Base/util';
 
 const defaultBubbleRadius = 10;
 
-export default function Bubble({ points }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
+export default function Bubble({ points, isScatter }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPosition = [],
@@ -24,13 +24,15 @@ export default function Bubble({ points }, { xMin, xMax, yMin, yMax, chartHeight
         var posX = startPosition + bubbleX - radius;
         var posY = chartHeight - bubbleY - radius;
 
-        backgroundImage.push('var(--bubble)');
+        backgroundImage.push(isScatter ? 'var(--scatter)' : 'var(--bubble)');
         backgroundSize.push(unitValue(diameter) + ' ' + unitValue(diameter));
         backgroundPosition.push(unitValue(posX) + ' ' + unitValue(posY));
     });
 
     styles['--background-image'] = backgroundImage.join(', ');
-    styles['--background-size'] = backgroundSize.join(', ');
+    if (!isScatter) {
+        styles['--background-size'] = backgroundSize.join(', ');
+    }
     styles['--background-position'] = backgroundPosition.join(', ');
 
     return styles;

@@ -11,7 +11,7 @@ export default function Graph(height, width, xData, yData, graphSettings, type) 
     var xAxisSetting = Object.assign({}, graphSettings, xAxis);
     var yAxisSetting = Object.assign({}, graphSettings, yAxis);
 
-    var isCategoricalXAxis = (type !== 'bubble');
+    var isCategoricalXAxis = (type !== 'bubble' && type !== 'scatter');
     // bar chart needs an additional column, since each bar renders in-between the column
     var needExtraColumn = (type === 'bar');
 
