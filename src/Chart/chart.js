@@ -145,20 +145,12 @@ Chart.prototype = {
 
         // bubble chart uses true XY coordinates
         if (type === 'bubble') {
-            xAxisData = seriesObj.points.map(function(p) {
-                return (p !== null && typeof p === 'object') ? p.x : p;
-            });
-
-            yAxisData = seriesObj.points.map(function(p) {
-                return (p !== null && typeof p === 'object') ? p.y : p;
-            });
+            xAxisData = seriesObj.points.map((p) => p.x);
+            yAxisData = seriesObj.points.map((p) => p.y);
         }
 
-        // bar chart needs an additional column, since each bar renders in-between the column
-        var needExtraColumn = (type === 'bar');
-
         // render the Graph
-        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, needExtraColumn, type);
+        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, type);
 
         // render the Series
         var series = new Series(seriesObj, graph);

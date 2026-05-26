@@ -3,29 +3,33 @@ import { convertObjToStyles, unitValue } from './../Base/util';
 import { calculateTextWidth } from './../Base/dom-utill';
 
 const math = Math;
-const isNumber = (val) => !isNaN(parseFloat(val));
+const isNumber = (val) => Number.isFinite(Number(val));
 const WHITESPACE_CHAR = '&#160;';
 
-export default function Graph(height, width, xData, yData, graphSettings, extraColumn, type) {
+export default function Graph(height, width, xData, yData, graphSettings, type) {
     var { xAxis = {}, yAxis = {} } = graphSettings;
     var xAxisSetting = Object.assign({}, graphSettings, xAxis);
     var yAxisSetting = Object.assign({}, graphSettings, yAxis);
 
+    var isCategoricalXAxis = (type !== 'bubble');
+    // bar chart needs an additional column, since each bar renders in-between the column
+    var needExtraColumn = (type === 'bar');
+
     var paddingX = xAxisSetting.padding;
-    paddingX = (paddingX instanceof Array) ? paddingX : [0, 0];
+    paddingX = Array.isArray(paddingX) ? paddingX : [0, 0];
     var pLeft = paddingX[0] || 0, pRight = paddingX[1] || 0;
-    if (extraColumn) pLeft += 1;
+    if (needExtraColumn) pLeft += 1;
 
     var col, xMin, xMax, scaleXData;
-    if (type === 'bubble') {
-        // bubble chart uses scale based x-axis
-        ({ min: xMin, max: xMax, scale: scaleXData } = generateScaleY(xData, xAxisSetting));
-        col = scaleXData.length - 1 + (pLeft + pRight);
-        scaleXData.reverse();
-    }
-    else {
+    if (isCategoricalXAxis) {
+        // label/index based logic for x-axis
         xMin = 0, xMax = xData.length - 1, scaleXData = xData;
         col = (xMax - xMin) + (pLeft + pRight);
+    }
+    else {
+        // bubble chart uses scale based x-axis
+        ({ min: xMin, max: xMax, scale: scaleXData } = generateScale(xData, xAxisSetting));
+        col = scaleXData.length - 1 + (pLeft + pRight);
     }
 
     var columnSize = width / col;
@@ -34,7 +38,7 @@ export default function Graph(height, width, xData, yData, graphSettings, extraC
     columnSize = Math.floor(columnSize / 0.5) * 0.5;
 
     // generate scale-y (based on the scale only we can calculate the row and rowSize)
-    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting, true);
+    var { min: yMin, max: yMax, reverseScale: scaleY } = generateScale(yData, yAxisSetting);
     var row = scaleY.length - 1;
     var rowSize = height / row;
 
@@ -142,7 +146,7 @@ function generateScaleX(xData, columnSize, { labelFontSize, labelFontFamily, ver
     return xLabel;
 }
 
-function generateScaleY(data, { maxTicks, startFromZero, customScale }) {
+function generateScale(data, { maxTicks, startFromZero, customScale }) {
     var minValue, maxValue, step;
     var { min, max, interval } = customScale;
     if (isNumber(min)) minValue = parseFloat(min);

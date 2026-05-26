@@ -20,12 +20,13 @@ export default function LinearScale(minPoint, maxPoint, maxTicks, stepSize) {
   for(let i=0; i<=count; i++) {
     result.push(lBound + (i * stepSize));
   }
-  result.reverse();
+  var reverseScale = result.slice().reverse();
 
   return {
     min: lBound,
-    max: result[0],
+    max: reverseScale[0],
     scale: result,
+    reverseScale,
     step: stepSize
   };
 }
