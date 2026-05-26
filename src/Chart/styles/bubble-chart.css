@@ -19,11 +19,12 @@
     --bubble-border-color: #4a5fd4;
     --bubble-border-width: 2px;
 
+    --_bubble-size: 70%;
     --bubble: radial-gradient(
         circle,
-        var(--bubble-color) 62%,
-        var(--bubble-border-color) 62%,
-        var(--bubble-border-color) calc(62% + var(--bubble-border-width)),
-        transparent calc(62% + var(--bubble-border-width))
+        var(--bubble-color) calc(var(--_bubble-size) - var(--bubble-border-width)),
+        var(--bubble-border-color) calc(var(--_bubble-size) - var(--bubble-border-width)),
+        var(--bubble-border-color) var(--_bubble-size),
+        transparent calc(var(--_bubble-size))
     );
 }
