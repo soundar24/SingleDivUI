@@ -51,7 +51,12 @@ Chart.prototype = {
                 barColor: null,
 
                 // ------ for area-chart related customizations ------
-                areaColor: null
+                areaColor: null,
+
+                // ------ for bubble-chart related customizations ------
+                bubbleColor: null,
+                bubbleBorderColor: null,
+                bubbleBorderWidth: null,
             },
         },
 
@@ -68,7 +73,16 @@ Chart.prototype = {
             xAxis: {
                 verticalLabel: false,
                 padding: [0, 0],
-                labelFormatter: null
+                labelFormatter: null,
+
+                maxTicks: 10,
+                startFromZero: false,
+
+                customScale: {
+                    min: null,
+                    max: null,
+                    interval: null
+                }
             },
             yAxis: {
                 maxTicks: 10,
@@ -134,11 +148,14 @@ Chart.prototype = {
         var xAxisData = data.labels;
         var yAxisData = seriesObj.points;
 
-        // bar chart needs an additional column, since each bar renders in-between the column
-        var needExtraColumn = (type === 'bar');
+        // bubble chart uses true XY coordinates
+        if (type === 'bubble') {
+            xAxisData = seriesObj.points.map((p) => p.x);
+            yAxisData = seriesObj.points.map((p) => p.y);
+        }
 
         // render the Graph
-        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, needExtraColumn);
+        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, type);
 
         // render the Series
         var series = new Series(seriesObj, graph);

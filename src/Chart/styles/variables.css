@@ -24,4 +24,9 @@
     /* Area chart related styles */
     --area-color: #6d81f04d;
     --area-top-color: transparent;
+
+    /* Bubble chart related styles */
+    --bubble-color: #6d81f091;
+    --bubble-border-color: #4a5fd4;
+    --bubble-border-width: 1px;
 }

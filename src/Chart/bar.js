@@ -3,7 +3,7 @@ import { convertRange, unitValue } from '../Base/util';
 const BACKGROUND = '--background-';
 const defaultBarSize = '60%';
 
-export default function Bar({ points, barSize, barColor }, { yMin, yMax, chartMax, columnSize, startPosition }) {
+export default function Bar({ points, barSize, barColor }, { yMin, yMax, chartHeight, columnSize, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPositionX = [],
@@ -26,7 +26,7 @@ export default function Bar({ points, barSize, barColor }, { yMin, yMax, chartMa
     }
 
     points.forEach((point, index) => {
-        var barHeight = convertRange(point, yMin, yMax, 0, chartMax);
+        var barHeight = convertRange(point, yMin, yMax, 0, chartHeight);
         if (!(barHeight >= 0)) barHeight = 0; // '>=' is to handle the NaN as well
         var barPosition = (columnSize * index) + barStart;
 
