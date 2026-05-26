@@ -158,7 +158,7 @@ Chart.prototype = {
         var needExtraColumn = (type === 'bar');
 
         // render the Graph
-        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, needExtraColumn);
+        var graph = new Graph(chartHeight, chartWidth, xAxisData, yAxisData, graphSettings, needExtraColumn, type);
 
         // render the Series
         var series = new Series(seriesObj, graph);

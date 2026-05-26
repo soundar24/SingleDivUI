@@ -6,7 +6,7 @@ const math = Math;
 const isNumber = (val) => !isNaN(parseFloat(val));
 const WHITESPACE_CHAR = '&#160;';
 
-export default function Graph(height, width, xData, yData, graphSettings, extraColumn) {
+export default function Graph(height, width, xData, yData, graphSettings, extraColumn, type) {
     var { xAxis = {}, yAxis = {} } = graphSettings;
     var xAxisSetting = Object.assign({}, graphSettings, xAxis);
     var yAxisSetting = Object.assign({}, graphSettings, yAxis);
@@ -16,20 +16,37 @@ export default function Graph(height, width, xData, yData, graphSettings, extraC
     var pLeft = paddingX[0] || 0, pRight = paddingX[1] || 0;
     if (extraColumn) pLeft += 1;
 
+    var xMin = 0, xMax = xData.length - 1, scaleXData = xData;
+
+    // bubble chart uses scale based x-axis
+    if (type === 'bubble') {
+        var { min, max, scale } = generateScaleY(xData, xAxisSetting);
+
+        xMin = min;
+        xMax = max;
+        scaleXData = scale.reverse();
+    }
+
     // generate scale-y (based on the scale only we can calculate the row and rowSize)
-    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting);
+    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting, true);
     var row = scaleY.length - 1, rowSize = height / row;
-    var col = (xData.length - 1) + (pLeft + pRight), columnSize = width / col;
+    var col = (xMax - xMin) + (pLeft + pRight), columnSize = width / col;
+
+    if (type === 'bubble') {
+        col = scaleXData.length - 1 + (pLeft + pRight);
+        columnSize = width / col;
+    }
+
     // to round the nearby value of 0.5
     // this is crucial part, since round-off the columnSize might lead the gap inbetween area
     columnSize = Math.floor(columnSize / 0.5) * 0.5;
 
     // format the X and Y labels, if the formatter is available
     scaleY = formatData(scaleY, yAxisSetting.labelFormatter);
-    xData = formatData(xData, xAxisSetting.labelFormatter);
+    scaleXData = formatData(scaleXData, xAxisSetting.labelFormatter);
 
     // generate scale-x
-    var scaleX = generateScaleX(xData, columnSize, xAxisSetting);
+    var scaleX = generateScaleX(scaleXData, columnSize, xAxisSetting);
 
     var startPosition = columnSize * pLeft;
     var yLabelWidth = getMaxLabelWidth(scaleY, yAxisSetting);
@@ -59,6 +76,7 @@ export default function Graph(height, width, xData, yData, graphSettings, extraC
     return {
         row, col,
         rowSize, columnSize,
+        xMin, xMax,
         yMin, yMax,
         chartHeight: height,
         chartWidth: width,
