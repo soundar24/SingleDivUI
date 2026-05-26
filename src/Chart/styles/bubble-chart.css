@@ -15,9 +15,9 @@
 }
 
 .sd-bubble {
-    --bubble-color: #6d81f0;
+    --bubble-color: #6d81f0ab;
     --bubble-border-color: #4a5fd4;
-    --bubble-border-width: 2px;
+    --bubble-border-width: 1px;
 
     --_bubble-size: 70%;
     --bubble: radial-gradient(
