@@ -16,30 +16,27 @@ export default function Graph(height, width, xData, yData, graphSettings, extraC
     var pLeft = paddingX[0] || 0, pRight = paddingX[1] || 0;
     if (extraColumn) pLeft += 1;
 
-    var xMin = 0, xMax = xData.length - 1, scaleXData = xData;
-
-    // bubble chart uses scale based x-axis
+    var col, xMin, xMax, scaleXData;
     if (type === 'bubble') {
-        var { min, max, scale } = generateScaleY(xData, xAxisSetting);
-
-        xMin = min;
-        xMax = max;
-        scaleXData = scale.reverse();
-    }
-
-    // generate scale-y (based on the scale only we can calculate the row and rowSize)
-    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting, true);
-    var row = scaleY.length - 1, rowSize = height / row;
-    var col = (xMax - xMin) + (pLeft + pRight), columnSize = width / col;
-
-    if (type === 'bubble') {
+        // bubble chart uses scale based x-axis
+        ({ min: xMin, max: xMax, scale: scaleXData } = generateScaleY(xData, xAxisSetting));
         col = scaleXData.length - 1 + (pLeft + pRight);
-        columnSize = width / col;
+        scaleXData.reverse();
+    }
+    else {
+        xMin = 0, xMax = xData.length - 1, scaleXData = xData;
+        col = (xMax - xMin) + (pLeft + pRight);
     }
 
+    var columnSize = width / col;
     // to round the nearby value of 0.5
     // this is crucial part, since round-off the columnSize might lead the gap inbetween area
     columnSize = Math.floor(columnSize / 0.5) * 0.5;
+
+    // generate scale-y (based on the scale only we can calculate the row and rowSize)
+    var { min: yMin, max: yMax, scale: scaleY } = generateScaleY(yData, yAxisSetting, true);
+    var row = scaleY.length - 1;
+    var rowSize = height / row;
 
     // format the X and Y labels, if the formatter is available
     scaleY = formatData(scaleY, yAxisSetting.labelFormatter);
