@@ -1,9 +1,9 @@
 import LinearScale from './linear-scale'
 import { convertObjToStyles, unitValue } from './../Base/util';
 import { calculateTextWidth } from './../Base/dom-utill';
+import { isNumber } from './../Base/util';
 
 const math = Math;
-const isNumber = (val) => Number.isFinite(Number(val));
 const WHITESPACE_CHAR = '&#160;';
 
 export default function Graph(height, width, xData, yData, graphSettings, type) {

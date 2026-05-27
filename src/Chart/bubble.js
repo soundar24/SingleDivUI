@@ -1,4 +1,4 @@
-import { convertRange, unitValue } from '../Base/util';
+import { isNumber, convertRange, unitValue } from '../Base/util';
 
 const defaultBubbleRadius = 10;
 
@@ -9,15 +9,15 @@ export default function Bubble({ points, isScatter, scatterRadius }, { xMin, xMa
         styles = {};
 
     points.forEach(function(point) {
-        if (typeof point !== 'object') {
+        if (point == null || typeof point !== 'object' || !isNumber(point.x) || !isNumber(point.y)) {
             return;
         }
 
         // convert the point x, y coordinate to the bubble position in the chart
-        var bubbleX = convertRange(point.x, xMin, xMax, 0, chartWidth);
-        var bubbleY = convertRange(point.y, yMin, yMax, 0, chartHeight);
+        var bubbleX = convertRange(parseFloat(point.x), xMin, xMax, 0, chartWidth);
+        var bubbleY = convertRange(parseFloat(point.y), yMin, yMax, 0, chartHeight);
 
-        var radius = point.r || defaultBubbleRadius;
+        var radius = parseFloat(point.r) || defaultBubbleRadius;
         if (isScatter) radius = scatterRadius;
         var diameter = radius * 2;
 
@@ -25,7 +25,7 @@ export default function Bubble({ points, isScatter, scatterRadius }, { xMin, xMa
         var posX = startPosition + bubbleX - radius;
         var posY = chartHeight - bubbleY - radius;
 
-        backgroundImage.push(isScatter ? 'var(--scatter)' : 'var(--bubble)');
+        backgroundImage.push('var(--point)');
         backgroundSize.push(unitValue(diameter) + ' ' + unitValue(diameter));
         backgroundPosition.push(unitValue(posX) + ' ' + unitValue(posY));
     });

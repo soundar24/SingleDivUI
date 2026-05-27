@@ -11,10 +11,10 @@
 }
 
 .sd-scatter {
-    --_scatter-size: 70%;
-    --scatter: radial-gradient(
+    --_point-size: 70%;
+    --point: radial-gradient(
         circle,
-        var(--scatter-color) var(--_scatter-size),
-        transparent var(--_scatter-size)
+        var(--scatter-color) var(--_point-size),
+        transparent var(--_point-size)
     );
 }
