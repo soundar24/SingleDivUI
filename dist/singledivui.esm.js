@@ -61,6 +61,10 @@ function isNumber(val) {
     return Number.isFinite(Number(val));
 }
 
+function isEven(num) {
+    return num % 2 === 0;
+}
+
 function deepExtend(sourceObj, targetObj) {
     targetObj = targetObj || {};
     for (var key in targetObj) {
@@ -549,7 +553,7 @@ function Area(areaObj, graphObj) {
 
 const defaultBubbleRadius = 10;
 
-function Bubble({ points, isScatter, scatterRadius }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
+function Bubble({ points, isScatter, scatterRadius, scatterShape }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPosition = [],
@@ -577,6 +581,10 @@ function Bubble({ points, isScatter, scatterRadius }, { xMin, xMax, yMin, yMax, 
         backgroundPosition.push(unitValue(posX) + ' ' + unitValue(posY));
     });
 
+    if (isScatter && scatterShape === 'plus' && isEven(points.length)) {
+        duplicateLastPosition(backgroundPosition);
+    }
+
     styles['--background-image'] = backgroundImage.join(', ');
     if (!isScatter) {
         styles['--background-size'] = backgroundSize.join(', ');
@@ -586,13 +594,49 @@ function Bubble({ points, isScatter, scatterRadius }, { xMin, xMax, yMin, yMax, 
     return styles;
 }
 
-const defaultScatterRadius = 3;
+function duplicateLastPosition(arr) {
+    // NOTE:
+    // In Scatter chart, Plus shape internally uses 2 layered linear-gradients.
+    //
+    // Example:
+    // background-image:
+    //     linear-gradient(...),
+    //     linear-gradient(...)
+    //
+    // Because of that, each scatter point contributes 2 background-image layers,
+    // but background-position contains only 1 entry per point.
+    //
+    // CSS maps background-* values cyclically when the counts mismatch.
+    // With even number of points, the gradient-position pairing breaks
+    // and some plus symbols render incorrectly (shows only horizontal dash).
+    //
+    // WORKAROUND:
+    // Duplicate the last background-position entry when point count is even,
+    // so the cyclic mapping stays visually aligned.
+    //
+    // TRADEOFF:
+    // Proper fix should explicitly duplicate each background-position entry
+    // per gradient layer, but that increases the generated CSS size/weight,
+    // so keeping this lightweight workaround for now.
+    arr.push(arr[arr.length - 1]);
+}
+
+const defaultScatterRadius = 4;
+const validScatterShapes = ['circle', 'square', 'triangle', 'plus'];
 
 function Scatter(scatterObj, graphObj) {
-    if (scatterObj.scatterRadius == undefined) {
+    let { scatterRadius, scatterShape } = scatterObj;
+
+    if (scatterRadius == undefined) {
         scatterObj.scatterRadius = defaultScatterRadius;
     }
+
+    if (validScatterShapes.includes(scatterShape)) {
+        scatterObj.scatterImage = `var(--point-${scatterShape})`;
+    }
+
     scatterObj.isScatter = true;
+
     return new Bubble(scatterObj, graphObj);
 }
 
@@ -607,7 +651,8 @@ const series = {
 // barSize - this value directly used in bar, so this can be ignored
 // pointStyle - this value is no needed directly, so this will be handeled in Line chart
 // pointRadius - this also needed when the point is shown, so this will be handeled in Line chart
-const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius'];
+// scatterShape - this value will be transformed into scatterImage (--scatter-image), so this can be ignored
+const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius', 'scatterShape'];
 
 function Series(obj, graphObj) {
     const seriesObj = Object.assign({}, obj);
@@ -682,6 +727,7 @@ Chart.prototype = {
                 // ------ for scatter-chart related customizations ------
                 scatterColor: null,
                 scatterRadius: null,
+                scatterShape: null
             },
         },
 

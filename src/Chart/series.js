@@ -16,7 +16,8 @@ const series = {
 // barSize - this value directly used in bar, so this can be ignored
 // pointStyle - this value is no needed directly, so this will be handeled in Line chart
 // pointRadius - this also needed when the point is shown, so this will be handeled in Line chart
-const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius'];
+// scatterShape - this value will be transformed into scatterImage (--scatter-image), so this can be ignored
+const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius', 'scatterShape'];
 
 export default function Series(obj, graphObj) {
     const seriesObj = Object.assign({}, obj);
