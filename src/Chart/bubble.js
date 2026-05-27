@@ -2,7 +2,7 @@ import { convertRange, unitValue } from '../Base/util';
 
 const defaultBubbleRadius = 10;
 
-export default function Bubble({ points, isScatter }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
+export default function Bubble({ points, isScatter, scatterRadius }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPosition = [],
@@ -18,6 +18,7 @@ export default function Bubble({ points, isScatter }, { xMin, xMax, yMin, yMax, 
         var bubbleY = convertRange(point.y, yMin, yMax, 0, chartHeight);
 
         var radius = point.r || defaultBubbleRadius;
+        if (isScatter) radius = scatterRadius;
         var diameter = radius * 2;
 
         // final render positions

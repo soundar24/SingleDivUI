@@ -1,6 +1,6 @@
 import Bubble from "./bubble";
 
-const defaultScatterRadius = 4;
+const defaultScatterRadius = 3;
 
 export default function Scatter(scatterObj, graphObj) {
     if (scatterObj.scatterRadius == undefined) {
