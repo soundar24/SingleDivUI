@@ -11,12 +11,12 @@
 }
 
 .sd-bubble {
-    --_bubble-size: 70%;
-    --bubble: radial-gradient(
+    --_point-size: 70%;
+    --point: radial-gradient(
         circle,
-        var(--bubble-color) calc(var(--_bubble-size) - var(--bubble-border-width)),
-        var(--bubble-border-color) calc(var(--_bubble-size) - var(--bubble-border-width)),
-        var(--bubble-border-color) var(--_bubble-size),
-        transparent calc(var(--_bubble-size))
+        var(--bubble-color) calc(var(--_point-size) - var(--bubble-border-width)),
+        var(--bubble-border-color) calc(var(--_point-size) - var(--bubble-border-width)),
+        var(--bubble-border-color) var(--_point-size),
+        transparent calc(var(--_point-size))
     );
 }

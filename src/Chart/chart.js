@@ -27,7 +27,7 @@ Chart.prototype = {
 
     // default properties of the Chart plugin
     defaults: {
-        // type should be 'line', 'bar' or 'area'
+        // type should be 'line', 'bar', 'area', 'bubble' or 'scatter'
         type: null,
         data: {
             labels: [],
@@ -57,6 +57,11 @@ Chart.prototype = {
                 bubbleColor: null,
                 bubbleBorderColor: null,
                 bubbleBorderWidth: null,
+
+                // ------ for scatter-chart related customizations ------
+                scatterColor: null,
+                scatterRadius: null,
+                scatterShape: null
             },
         },
 
@@ -148,8 +153,8 @@ Chart.prototype = {
         var xAxisData = data.labels;
         var yAxisData = seriesObj.points;
 
-        // bubble chart uses true XY coordinates
-        if (type === 'bubble') {
+        // bubble & scatter charts uses true XY coordinates
+        if (type === 'bubble' || type === 'scatter') {
             xAxisData = seriesObj.points.map((p) => p.x);
             yAxisData = seriesObj.points.map((p) => p.y);
         }

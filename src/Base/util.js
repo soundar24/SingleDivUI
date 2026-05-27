@@ -2,6 +2,14 @@ const math = Math;
 const defaultUnit = 'px';
 const maxFraction = 2;
 
+export function isNumber(val) {
+    return Number.isFinite(Number(val));
+}
+
+export function isEven(num) {
+    return num % 2 === 0;
+}
+
 export function deepExtend(sourceObj, targetObj) {
     targetObj = targetObj || {};
     for (var key in targetObj) {

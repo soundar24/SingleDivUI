@@ -57,6 +57,14 @@ const math$1 = Math;
 const defaultUnit = 'px';
 const maxFraction = 2;
 
+function isNumber(val) {
+    return Number.isFinite(Number(val));
+}
+
+function isEven(num) {
+    return num % 2 === 0;
+}
+
 function deepExtend(sourceObj, targetObj) {
     targetObj = targetObj || {};
     for (var key in targetObj) {
@@ -232,7 +240,6 @@ function createElement(tag) {
 }
 
 const math$2 = Math;
-const isNumber = (val) => Number.isFinite(Number(val));
 const WHITESPACE_CHAR = '&#160;';
 
 function Graph(height, width, xData, yData, graphSettings, type) {
@@ -240,7 +247,7 @@ function Graph(height, width, xData, yData, graphSettings, type) {
     var xAxisSetting = Object.assign({}, graphSettings, xAxis);
     var yAxisSetting = Object.assign({}, graphSettings, yAxis);
 
-    var isCategoricalXAxis = (type !== 'bubble');
+    var isCategoricalXAxis = (type !== 'bubble' && type !== 'scatter');
     // bar chart needs an additional column, since each bar renders in-between the column
     var needExtraColumn = (type === 'bar');
 
@@ -546,51 +553,106 @@ function Area(areaObj, graphObj) {
 
 const defaultBubbleRadius = 10;
 
-function Bubble({ points }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
+function Bubble({ points, isScatter, scatterRadius, scatterShape }, { xMin, xMax, yMin, yMax, chartHeight, chartWidth, startPosition }) {
     var backgroundImage = [],
         backgroundSize = [],
         backgroundPosition = [],
         styles = {};
 
     points.forEach(function(point) {
-        if (typeof point !== 'object') {
+        if (point == null || typeof point !== 'object' || !isNumber(point.x) || !isNumber(point.y)) {
             return;
         }
 
         // convert the point x, y coordinate to the bubble position in the chart
-        var bubbleX = convertRange(point.x, xMin, xMax, 0, chartWidth);
-        var bubbleY = convertRange(point.y, yMin, yMax, 0, chartHeight);
+        var bubbleX = convertRange(parseFloat(point.x), xMin, xMax, 0, chartWidth);
+        var bubbleY = convertRange(parseFloat(point.y), yMin, yMax, 0, chartHeight);
 
-        var radius = point.r || defaultBubbleRadius;
+        var radius = parseFloat(point.r) || defaultBubbleRadius;
+        if (isScatter) radius = scatterRadius;
         var diameter = radius * 2;
 
         // final render positions
         var posX = startPosition + bubbleX - radius;
         var posY = chartHeight - bubbleY - radius;
 
-        backgroundImage.push('var(--bubble)');
+        backgroundImage.push('var(--point)');
         backgroundSize.push(unitValue(diameter) + ' ' + unitValue(diameter));
         backgroundPosition.push(unitValue(posX) + ' ' + unitValue(posY));
     });
 
+    if (isScatter && scatterShape === 'plus' && isEven(points.length)) {
+        duplicateLastPosition(backgroundPosition);
+    }
+
     styles['--background-image'] = backgroundImage.join(', ');
-    styles['--background-size'] = backgroundSize.join(', ');
+    if (!isScatter) {
+        styles['--background-size'] = backgroundSize.join(', ');
+    }
     styles['--background-position'] = backgroundPosition.join(', ');
 
     return styles;
+}
+
+function duplicateLastPosition(arr) {
+    // NOTE:
+    // In Scatter chart, Plus shape internally uses 2 layered linear-gradients.
+    //
+    // Example:
+    // background-image:
+    //     linear-gradient(...),
+    //     linear-gradient(...)
+    //
+    // Because of that, each scatter point contributes 2 background-image layers,
+    // but background-position contains only 1 entry per point.
+    //
+    // CSS maps background-* values cyclically when the counts mismatch.
+    // With even number of points, the gradient-position pairing breaks
+    // and some plus symbols render incorrectly (shows only horizontal dash).
+    //
+    // WORKAROUND:
+    // Duplicate the last background-position entry when point count is even,
+    // so the cyclic mapping stays visually aligned.
+    //
+    // TRADEOFF:
+    // Proper fix should explicitly duplicate each background-position entry
+    // per gradient layer, but that increases the generated CSS size/weight,
+    // so keeping this lightweight workaround for now.
+    arr.push(arr[arr.length - 1]);
+}
+
+const defaultScatterRadius = 4;
+const validScatterShapes = ['circle', 'square', 'triangle', 'plus'];
+
+function Scatter(scatterObj, graphObj) {
+    let { scatterRadius, scatterShape } = scatterObj;
+
+    if (scatterRadius == undefined) {
+        scatterObj.scatterRadius = defaultScatterRadius;
+    }
+
+    if (validScatterShapes.includes(scatterShape)) {
+        scatterObj.scatterImage = `var(--point-${scatterShape})`;
+    }
+
+    scatterObj.isScatter = true;
+
+    return new Bubble(scatterObj, graphObj);
 }
 
 const series = {
     line: Line,
     bar: Bar,
     area: Area,
-    bubble: Bubble
+    bubble: Bubble,
+    scatter: Scatter
 };
 
 // barSize - this value directly used in bar, so this can be ignored
 // pointStyle - this value is no needed directly, so this will be handeled in Line chart
 // pointRadius - this also needed when the point is shown, so this will be handeled in Line chart
-const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius'];
+// scatterShape - this value will be transformed into scatterImage (--scatter-image), so this can be ignored
+const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius', 'scatterShape'];
 
 function Series(obj, graphObj) {
     const seriesObj = Object.assign({}, obj);
@@ -631,7 +693,7 @@ Chart.prototype = {
 
     // default properties of the Chart plugin
     defaults: {
-        // type should be 'line', 'bar' or 'area'
+        // type should be 'line', 'bar', 'area', 'bubble' or 'scatter'
         type: null,
         data: {
             labels: [],
@@ -661,6 +723,11 @@ Chart.prototype = {
                 bubbleColor: null,
                 bubbleBorderColor: null,
                 bubbleBorderWidth: null,
+
+                // ------ for scatter-chart related customizations ------
+                scatterColor: null,
+                scatterRadius: null,
+                scatterShape: null
             },
         },
 
@@ -752,8 +819,8 @@ Chart.prototype = {
         var xAxisData = data.labels;
         var yAxisData = seriesObj.points;
 
-        // bubble chart uses true XY coordinates
-        if (type === 'bubble') {
+        // bubble & scatter charts uses true XY coordinates
+        if (type === 'bubble' || type === 'scatter') {
             xAxisData = seriesObj.points.map((p) => p.x);
             yAxisData = seriesObj.points.map((p) => p.y);
         }
