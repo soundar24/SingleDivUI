@@ -11,10 +11,29 @@
 }
 
 .sd-scatter {
-    --_point-size: 70%;
-    --point: radial-gradient(
+    --point-circle: radial-gradient(
         circle,
-        var(--scatter-color) var(--_point-size),
-        transparent var(--_point-size)
+        var(--scatter-color) 0 70%,
+        transparent 72%
     );
+    --point-square: linear-gradient(var(--scatter-color), var(--scatter-color));
+    --point-triangle: conic-gradient(
+        from 25deg at 50% 0%,
+        transparent 0deg 129deg,
+        var(--scatter-color) 129deg 180deg,
+        transparent 180deg 360deg
+    );
+    --point-plus: linear-gradient(
+        transparent 40%,
+        var(--scatter-color) 40% 60%,
+        transparent 60%
+    ), linear-gradient(
+        90deg,
+        transparent 40%,
+        var(--scatter-color) 40% 60%,
+        transparent 60%
+    );
+
+    --scatter-image: var(--point-circle);
+    --point: var(--scatter-image);
 }

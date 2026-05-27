@@ -61,6 +61,7 @@ Chart.prototype = {
                 // ------ for scatter-chart related customizations ------
                 scatterColor: null,
                 scatterRadius: null,
+                scatterShape: null
             },
         },
 
