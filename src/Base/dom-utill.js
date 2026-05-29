@@ -84,6 +84,13 @@ function updateClass(el, mode, classNames) {
     return classNames;
 }
 
+export function removeChartClasses(element, chartPrefix) {
+    element.className = element.className
+        .split(' ')
+        .filter(c => !c.startsWith(chartPrefix))
+        .join(' ');
+}
+
 function createElement(tag) {
     var t = tag.split('#');
     var ele = DOCUMENT.createElement(t[0]);
