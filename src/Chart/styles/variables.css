@@ -1,15 +1,15 @@
 .sd-chart {
     /* Graph related styles */
-    --axis-line-color: #5c5c5c;
-    --grid-line-color: #ddd;
-    --label-color: #4e4e4e;
+    --axis-line-color:  #6B7280;
+    --grid-line-color:  #E5E7EB;
+    --label-color: #4B5563;
     --grid-line-size: 1px;
     --axis-line-size: 1px;
     --label-distance: 10px;
 
     /* Line chart related styles */
     --line-size: 2px;
-    --line-color: #6d81f0;
+    --line-color: #6D7CFF;
     --point-radius: 6px;
     --point-color: inherit;
     --point-border-color: inherit;
@@ -19,17 +19,17 @@
     --point-inner-color: transparent;
 
     /* Bar chart related styles */
-    --bar-color: #6d81f0;
+    --bar-color: #6D7CFF;
 
     /* Area chart related styles */
-    --area-color: #6d81f04d;
+    --area-color: #6D7CFF4D;
     --area-top-color: transparent;
 
     /* Bubble chart related styles */
-    --bubble-color: #6d81f091;
-    --bubble-border-color: #4a5fd4;
-    --bubble-border-width: 1px;
+    --bubble-color: #6D7CFF4D;
+    --bubble-border-color: #6D7CFF;
+    --bubble-border-width: 1.5px;
 
     /* Scatter chart related styles */
-    --scatter-color: #3e5de5;
+    --scatter-color: #6D7CFF;
 }
