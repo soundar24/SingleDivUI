@@ -1,9 +1,10 @@
 <p align="center">
     <img src="./assets/logo.png" alt="" width="330" height="" />
 </p>
-<h2 align="center">
+
+<div align="center" tabindex="-1" class="heading-element" dir="auto" style="margin: 0 0 12px 0;font-size: 20px;font-weight: 500;">
     Charts Built With a Single DIV
-</h2>
+</div>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/singledivui" target="_blank">
@@ -14,17 +15,9 @@
   </a>
 </p>
 
-<!-- <p align="center">
-  <a href="https://singledivui.com"> https://singledivui.com </a> <br />
-</p> -->
-
 <p align="center">
     A frontend engineering experiment that explores how far modern CSS can be pushed to render charts without SVG, Canvas, or image assets.
 </p>
-
-<!-- <a href="https://singledivui.com">
-    <img src="/assets/showcase.png" alt="singledivui - Line chart, Bar chart, Area chart" />
-</a> -->
 
 <p align="center">
   <a href="https://singledivui.com">Website</a> •
@@ -33,7 +26,7 @@
   <a href="https://www.npmjs.com/package/singledivui">npm</a>
 </p>
 
----
+<!-- --- -->
 
 ![SingleDivUI Showcase](./assets/showcase-image.png)
 
