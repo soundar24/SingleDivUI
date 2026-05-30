@@ -126,7 +126,7 @@ Chart.prototype = {
         addClass(chart, classNames);
 
         // set the dimensions of the control, based on the
-        // height, width only all the callculations will happen
+        // height, width only all the calculations will happen
         setWidth(chart, width);
         setHeight(chart, height);
 

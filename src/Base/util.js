@@ -40,7 +40,7 @@ export function calculateAngle(point1, point2, pointsDistance) {
 
     var sinX = opposite / hypotenuse;
     var x = math.asin(sinX);
-    var deg = radians_to_degrees(x);
+    var deg = radiansToDegrees(x);
 
     if (diff < 0) {
         deg = -deg;
@@ -75,7 +75,7 @@ function camelToKebabCase(str) {
     return str.split(/(?=[A-Z])/).join('-').toLowerCase();
 }
 
-function radians_to_degrees(radians) {
+function radiansToDegrees(radians) {
     return radians * (180 / math.PI);
 }
 
