@@ -1,6 +1,9 @@
 <p align="center">
-    <img src="/assets/logo.png" alt="" width="330" height="" />
+    <img src="./assets/logo.png" alt="" width="330" height="" />
 </p>
+<h2 align="center">
+    Charts Built With a Single DIV
+</h2>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/singledivui" target="_blank">
@@ -11,142 +14,185 @@
   </a>
 </p>
 
-<p align="center">
+<!-- <p align="center">
   <a href="https://singledivui.com"> https://singledivui.com </a> <br />
-</p>
+</p> -->
 
 <p align="center">
-  A list of Chart components that made with a <b>single div</b> element.
+    A frontend engineering experiment that explores how far modern CSS can be pushed to render charts without SVG, Canvas, or image assets.
 </p>
 
-<a href="https://singledivui.com">
+<!-- <a href="https://singledivui.com">
     <img src="/assets/showcase.png" alt="singledivui - Line chart, Bar chart, Area chart" />
-</a>
+</a> -->
+
+<p align="center">
+  <a href="https://singledivui.com">Website</a> •
+  <a href="https://singledivui.com/demos">Demos</a> •
+  <a href="https://singledivui.com/docs">Documentation</a> •
+  <a href="https://www.npmjs.com/package/singledivui">npm</a>
+</p>
 
 ---
 
-## Intro
-The SingleDivUI is a simple and smallest UI components library which includes Line chart, Bar chart, Area chart (and more coming on). Here the complete component was made up of with a single DIV element alone, with the CSS capabilities. There is no images, SVG or Canvas nothing used.
+![SingleDivUI Showcase](./assets/showcase-image.png)
 
-<!-- toc -->
-## Table of contents
-
-- [Getting started](#getting-started)
-- [Quickstart](#quickstart)
-- [APIs](#apis)
-- [Demos](#demos)
-- [Screenshots](#screenshots)
-- [Facts](#facts)
-- [License](#license)
-
-<!-- tocstop -->
 ---
 
-## Getting started
+## The Challenge
 
-Refer the [Getting started](https://singledivui.com/docs/getting-started) documentation for the detailed information.
+Most chart libraries rely on SVG or Canvas for rendering.
 
-## Quickstart
+SingleDivUI started with a simple engineering question:
 
-The simple and easiest way to try and start using **SingleDivUI's** Chart component is using the editable samples from **CodePen** or **StackBlitz**. Try the below basic chart,
-* demo based on **npm**
-    * <a href="https://stackblitz.com/edit/singledivui-v1"> StackBlitz Demo </a>
-* demo based on CDN
-    * <a href="https://codepen.io/soundar24/pen/zYmGPaz"> CodePen Demo </a>
+> Can a complete charting system be built using only a single HTML element and modern CSS?
 
+The objective was never to replace existing chart libraries.
 
-Just fork the above samples and try to edit yourself for more customization. Also refer the [API Reference](/docs/api-reference) document to know about the available options.
+Instead, this project was created as a creative engineering challenge to explore browser rendering capabilities, advanced CSS techniques, and unconventional approaches to UI development.
 
-## APIs
+The result is a collection of chart components rendered using only CSS and a single root DIV element.
 
-Here are the complete list of APIs from the Chart component.
+---
 
-Please note that these are the all available API's with their default values. So to create a basic Chart you don't need to include all of these, for the customization only these needed.
+## Design Constraints
 
-Refer the [Usage](https://singledivui.com/docs/getting-started#usage) section for the basic Chart creation, also refer the [API Reference](https://singledivui.com/docs/api-reference) for the detailed information of these APIs.
+To make the challenge meaningful, every chart follows a set of intentional constraints:
 
-```JavaScript
-new Chart('#chart',  {
-    // type should be 'line', 'bar' or 'area'
-    type: null,
+* Single root DIV element
+* No SVG rendering
+* No Canvas rendering
+* No image-based rendering
+* Responsive layouts
+* Configurable appearance
+
+These constraints forced the project to explore alternative rendering techniques and pushed CSS far beyond its traditional use cases.
+
+![Design Constraints](./assets/readme-constraints.png)
+
+---
+
+## Techniques Explored
+
+SingleDivUI uses combinations of:
+
+* CSS Variables
+* Linear Gradients
+* Radial Gradients
+* Multiple Background Layers
+* Pseudo Elements
+* CSS Calculations
+* Dynamic Positioning
+* CSS Transforms
+* Responsive Scaling
+
+Many of these techniques are used in unconventional ways to create visualizations that would traditionally be rendered using SVG or Canvas.
+
+![Techniques Explored](./assets/readme-techniques.png)
+
+---
+
+## The Result
+
+SingleDivUI currently supports:
+
+* Line Chart
+* Bar Chart
+* Area Chart
+* Bubble Chart
+* Scatter Chart
+
+The focus is not on competing with mature charting solutions, but on demonstrating what can be achieved when creative constraints are combined with modern CSS capabilities.
+
+---
+
+## Interactive Playground
+
+The project includes an interactive playground for experimenting with chart configuration, customization, and rendering options.
+
+![Interactive Playground](./assets/readme-playground.png)
+
+---
+
+## Quick Start
+
+### Installation
+
+```bash
+npm install singledivui
+```
+
+### Basic Example
+
+```javascript
+import { Chart } from 'singledivui';
+import 'singledivui/dist/singledivui.min.css';
+
+new Chart('#chart', {
+    type: 'line',
+
     data: {
-        labels: [],
-        
+        labels: ['Jan', 'Feb', 'Mar'],
+
         series: {
-            points: [],
-
-            // ------ for line-chart related customizations ------
-            lineColor: null,
-            lineSize: null,
-            pointRadius: null,
-            pointColor: null,
-            pointBorderWidth: null,
-            pointBorderColor: null,
-            pointStyle: null,
-            pointInnerColor: null,
-            dotRadius: null,
-
-            // ------ for bar-chart related customizations ------
-            barSize: null,
-            barColor: null,
-
-            // ------ for area-chart related customizations ------
-            areaColor: null
-        },
-    },
-
-    graphSettings: {
-        labelFontSize: '11px',
-        labelFontFamily: 'Verdana, Arial, sans-serif',
-        gridLineColor: null,
-        gridLineSize: null,
-        axisLineColor: null,
-        axisLineSize: null,
-        labelColor: null,
-        labelDistance: null,
-
-        xAxis: {
-            verticalLabel: false,
-            padding: [0, 0],
-            labelFormatter: null
-        },
-        yAxis: {
-            maxTicks: 10,
-            startFromZero: false,
-            labelFormatter: null,
-
-            customScale: {
-                min: null,
-                max: null,
-                interval: null
-            }
+            points: [10, 20, 15]
         }
-    },
-
-    height: 260,
-    width: '100%',
-    responsive: true,
-    stylesAppendTo: 'head'
+    }
 });
 ```
 
-## Demos
+---
 
-Refer the [Demos](https://singledivui.com/demos/line-chart/basic) section to check out multiple demo samples and customizations.
+## Try It Online
 
-## Screenshots
+### StackBlitz
 
-![singledivui - line chart, bar chart, area chart - colourful appearances](/assets/Screenshot-1.png)
+https://stackblitz.com/edit/singledivui-v1
 
-![singledivui - line chart, bar chart, area chart - customization](/assets/Screenshot-2.png)
+### CodePen
 
-## Facts
-- The complete rendering was done by CSS, and inside a single div alone
-- The size of the library is very small with no dependencies
-- No built-in interactions, based on the requirement it can be added in the near future
-- No animation, but still CSS transition will works on dynamic data update
-- Inspired by Lynn Fisher's CSS drawing with a <a href="https://singlediv.com/">single div</a>
+https://codepen.io/soundar24/pen/zYmGPaz
+
+---
+
+## Documentation
+
+### Getting Started
+
+Learn how to install and create your first chart.
+
+### API Reference
+
+Explore all available chart options and configurations.
+
+### Examples
+
+Browse complete working examples for every chart type.
+
+### Customization Guide
+
+Learn how to customize charts using configuration options.
+
+---
+
+## Architecture Notes
+
+SingleDivUI was built as a frontend engineering experiment rather than a traditional charting solution.
+
+The project explores:
+
+* Constraint-driven design
+* Browser rendering behavior
+* Advanced CSS composition
+* Creative problem solving
+* UI rendering without SVG or Canvas
+
+While SVG and Canvas remain the preferred choice for complex charting systems, SingleDivUI demonstrates how far CSS can be pushed when used as a rendering engine.
+
+---
 
 ## License
 
-[MIT](https://github.com/soundar24/SingleDivUI/blob/main/LICENSE)
+MIT License
+
+See the [LICENSE](./LICENSE) file for details.
