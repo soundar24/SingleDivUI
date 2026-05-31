@@ -34,6 +34,12 @@
         transparent 60%
     );
 
+    /*
+     * --scatter-image is the active shape image, set to --point-circle by default.
+     * JS overrides this variable (via inline style) when a custom scatterShape is set,
+     * e.g. --scatter-image: var(--point-square).
+     * --point then consumes --scatter-image so the background-image picks up the right shape.
+     */
     --scatter-image: var(--point-circle);
     --point: var(--scatter-image);
 }

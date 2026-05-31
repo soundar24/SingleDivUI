@@ -150,7 +150,6 @@ function throttle(func, interval, context) {
 const DOCUMENT = typeof document !== 'undefined' ? document : {};
 const querySelector = (selector) => DOCUMENT.querySelector(selector);
 const addClass = (el, classNames) => updateClass(el, 'add', classNames);
-const removeClass = (el, classNames) => updateClass(el, 'remove', classNames);
 const setWidth = (el, val, forceSet) => setStyleProp(el, 'width', val, forceSet);
 const setHeight = (el, val, forceSet) => setStyleProp(el, 'height', val, forceSet);
 const removeAttribute = (el, attr) => attr && el.removeAttribute(attr);
@@ -230,6 +229,13 @@ function applyStyles(jsonObj, inline) {
 function updateClass(el, mode, classNames) {
     classNames && classNames.split(' ').forEach(name => el.classList[mode](name));
     return classNames;
+}
+
+function removeChartClasses(element, chartPrefix) {
+    element.className = element.className
+        .split(' ')
+        .filter(c => !c.startsWith(chartPrefix))
+        .join(' ');
 }
 
 function createElement(tag) {
@@ -789,7 +795,7 @@ Chart.prototype = {
         if (type) {
             classNames += ' ' + CLASS_PREFIX + type;
         }
-        this.rootClasses = addClass(chart, classNames);
+        addClass(chart, classNames);
 
         // set the dimensions of the control, based on the
         // height, width only all the callculations will happen
@@ -885,7 +891,7 @@ Chart.prototype = {
         var chart = this.control;
 
         // remove all the chart related classes that added initially
-        removeClass(chart, this.rootClasses);
+        removeChartClasses(chart, CLASS_PREFIX);
 
         // remove all the inline styles that added
         if (this.options.stylesAppendTo === 'inline') {
