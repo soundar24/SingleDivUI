@@ -37,76 +37,67 @@ Some projects start with a requirement.
 
 This one started with a constraint.
 
-> "Innovation often begins by asking: what happens if we do it differently?"
-
 SingleDivUI explores a simple but unconventional idea: building charts using only a single HTML element and modern CSS.
 
 The goal was never to replace existing chart libraries. Rather, it was an opportunity to understand browser rendering capabilities at a deeper level, push CSS beyond its conventional use cases, and uncover new possibilities in UI engineering.
 
 The result is a collection of chart components rendered entirely through CSS and a single root DIV element.
 
----
-
 ## Design Constraints
 
-To make the challenge meaningful, every chart follows a set of intentional constraints:
+To make the challenge meaningful, the project was built around a set of deliberate constraints:
 
-* Single root DIV element
-* No SVG rendering
-* No Canvas rendering
-* No image-based rendering
-* Responsive layouts
-* Configurable appearance
+- A single root DIV element serves as the foundation for every chart.
+- No SVG, Canvas, or image-based rendering is used.
+- Charts remain responsive across different viewport sizes.
+- Visual customization is supported through configuration options, similar to traditional charting solutions.
+- Rendering is designed to remain visually consistent and pixel-accurate across supported browsers.
 
-These constraints forced the project to explore alternative rendering techniques and pushed CSS far beyond its traditional use cases.
-
-![Design Constraints](./assets/readme-constraints.png)
-
----
+These constraints transformed a simple charting exercise into a study of creative problem-solving, unconventional rendering techniques, and the practical capabilities of modern CSS.
 
 ## Techniques Explored
 
-SingleDivUI uses combinations of:
+Building charts with a single HTML element required combining several CSS techniques in unconventional ways:
 
-* CSS Variables
-* Linear Gradients
-* Radial Gradients
-* Multiple Background Layers
-* Pseudo Elements
-* CSS Calculations
-* Dynamic Positioning
-* CSS Transforms
-* Responsive Scaling
+- CSS Variables
+- Linear, Radial, and Conic Gradients
+- Multiple Background Layers
+- Pseudo Elements
+- CSS Calculations
+- Transforms and Positioning
+- Layer Composition Techniques
 
-Many of these techniques are used in unconventional ways to create visualizations that would traditionally be rendered using SVG or Canvas.
-
-![Techniques Explored](./assets/readme-techniques.png)
-
----
+Many of these techniques are commonly used for styling interfaces. In SingleDivUI, they are repurposed as building blocks for rendering chart elements, data points, grid lines, labels, and visual effects.
 
 ## The Result
 
-SingleDivUI currently supports:
+The outcome is more than a collection of charts.
 
-* Line Chart
-* Bar Chart
-* Area Chart
-* Bubble Chart
-* Scatter Chart
+SingleDivUI demonstrates how a set of deliberate constraints, combined with modern CSS capabilities, can produce a flexible charting system.
 
-The focus is not on competing with mature charting solutions, but on demonstrating what can be achieved when creative constraints are combined with modern CSS capabilities.
+The project currently supports:
 
----
+- Line Charts
+- Bar Charts
+- Area Charts
+- Bubble Charts
+- Scatter Charts
 
-## Interactive Playground
+Each visualization is built upon the same underlying philosophy: using CSS not only as a styling tool, but as a rendering medium.
 
-The project includes an interactive playground for experimenting with chart configuration, customization, and rendering options.
+## Interactive Demos
 
-![Interactive Playground](./assets/readme-playground.png)
+The best way to understand SingleDivUI is to see it in action.
 
----
+The demo collection showcases different chart types, rendering techniques, and customization possibilities through a series of interactive examples.
+
+Whether you're evaluating the library or simply curious about the implementation techniques, the demos provide a practical way to explore the project.
+
+Explore the demos: https://singledivui.com/demos
 
 ## Quick Start
+
+Creating a chart requires only a few lines of code.
 
 ### Installation
 
@@ -125,7 +116,6 @@ new Chart('#chart', {
 
     data: {
         labels: ['Jan', 'Feb', 'Mar'],
-
         series: {
             points: [10, 20, 15]
         }
@@ -133,58 +123,20 @@ new Chart('#chart', {
 });
 ```
 
----
+Despite the rendering constraints described earlier, the API is intentionally designed to remain simple and familiar to developers who have worked with traditional charting libraries.
 
-## Try It Online
+For additional examples, customization options, and API documentation, visit the resources below.
 
-### StackBlitz
+## Learn More
 
-https://stackblitz.com/edit/singledivui-v1
-
-### CodePen
-
-https://codepen.io/soundar24/pen/zYmGPaz
-
----
-
-## Documentation
-
-### Getting Started
-
-Learn how to install and create your first chart.
-
-### API Reference
-
-Explore all available chart options and configurations.
-
-### Examples
-
-Browse complete working examples for every chart type.
-
-### Customization Guide
-
-Learn how to customize charts using configuration options.
-
----
-
-## Architecture Notes
-
-SingleDivUI was built as a frontend engineering experiment rather than a traditional charting solution.
-
-The project explores:
-
-* Constraint-driven design
-* Browser rendering behavior
-* Advanced CSS composition
-* Creative problem solving
-* UI rendering without SVG or Canvas
-
-While SVG and Canvas remain the preferred choice for complex charting systems, SingleDivUI demonstrates how far CSS can be pushed when used as a rendering engine.
-
----
+- [Interactive Demos](https://singledivui.com/demos)
+- [Documentation](https://singledivui.com/docs)
+- [API Reference](https://singledivui.com/docs/api-reference)
+- [StackBlitz Example](https://stackblitz.com/edit/singledivui-v1)
+- [CodePen Example](https://codepen.io/soundar24/pen/zYmGPaz)
 
 ## License
 
-MIT License
+SingleDivUI is released under the MIT License.
 
 See the [LICENSE](./LICENSE) file for details.
