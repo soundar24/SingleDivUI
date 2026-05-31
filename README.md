@@ -6,15 +6,6 @@
 </h2>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/singledivui" target="_blank">
-    <img src="https://img.shields.io/npm/v/singledivui?style=flat-square" />
-  </a>
-  <a href="https://github.com/soundar24/singledivui/blob/master/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/soundar24/singledivui?style=flat-square" />
-  </a>
-</p>
-
-<p align="center">
     A frontend engineering experiment that explores how far modern CSS can be pushed to render charts without SVG, Canvas, or image assets.
 </p>
 
@@ -25,6 +16,15 @@
   <a href="https://www.npmjs.com/package/singledivui">npm</a>
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/singledivui" target="_blank">
+    <img src="https://img.shields.io/npm/v/singledivui?style=flat-square" />
+  </a>
+  <a href="https://github.com/soundar24/singledivui/blob/master/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/soundar24/singledivui?style=flat-square" />
+  </a>
+</p>
+
 <!-- --- -->
 
 ![SingleDivUI Showcase](./assets/showcase-image.png)
@@ -33,17 +33,17 @@
 
 ## The Challenge
 
-Most chart libraries rely on SVG or Canvas for rendering.
+Some projects start with a requirement.
 
-SingleDivUI started with a simple engineering question:
+This one started with a constraint.
 
-> Can a complete charting system be built using only a single HTML element and modern CSS?
+> "Innovation often begins by asking: what happens if we do it differently?"
 
-The objective was never to replace existing chart libraries.
+SingleDivUI explores a simple but unconventional idea: building charts using only a single HTML element and modern CSS.
 
-Instead, this project was created as a creative engineering challenge to explore browser rendering capabilities, advanced CSS techniques, and unconventional approaches to UI development.
+The goal was never to replace existing chart libraries. Rather, it was an opportunity to understand browser rendering capabilities at a deeper level, push CSS beyond its conventional use cases, and uncover new possibilities in UI engineering.
 
-The result is a collection of chart components rendered using only CSS and a single root DIV element.
+The result is a collection of chart components rendered entirely through CSS and a single root DIV element.
 
 ---
 
