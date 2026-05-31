@@ -1,10 +1,9 @@
 <p align="center">
     <img src="./assets/logo.png" alt="" width="330" height="" />
 </p>
-
-<div align="center" tabindex="-1" class="heading-element" dir="auto" style="margin: 0 0 12px 0;font-size: 20px;font-weight: 500;">
+<h2 align="center">
     Charts Built With a Single DIV
-</div>
+</h2>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/singledivui" target="_blank">
