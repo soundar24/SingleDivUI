@@ -64,8 +64,7 @@ Building charts with a single HTML element required combining several CSS techni
 - Multiple Background Layers
 - Pseudo Elements
 - CSS Calculations
-- Transforms and Positioning
-- Layer Composition Techniques
+- Transforms
 
 Many of these techniques are commonly used for styling interfaces. In SingleDivUI, they are repurposed as building blocks for rendering chart elements, data points, grid lines, labels, and visual effects.
 
