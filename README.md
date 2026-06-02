@@ -33,9 +33,9 @@
 
 ## The Challenge
 
-Some projects start with a requirement.
-
-This one started with a constraint.
+> Some projects start with a requirement.
+>
+> This one started with a constraint.
 
 SingleDivUI explores a simple but unconventional idea: building charts using only a single HTML element and modern CSS.
 
