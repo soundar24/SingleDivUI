@@ -1,5 +1,5 @@
 /*!
- * SingleDivUI v1.0.1 | https://singledivui.com | (c) 2023-2026 Soundar | MIT License
+ * SingleDivUI v2.0.0 | https://singledivui.com | (c) 2023-2026 Soundar | MIT License
  */
 
 const math = Math;
@@ -687,7 +687,7 @@ const CLASS_GRAPH = CLASS_PREFIX + 'graph'; // sd-graph
 
 Chart.prototype = {
     PLUGIN_NAME,
-    version: "1.0.1",
+    version: "2.0.0",
 
     // after the control initialization the updated default values
     // are merged into the options
