@@ -51,7 +51,7 @@ To make the challenge meaningful, the project was built around a set of delibera
 - No SVG, Canvas, or image-based rendering is used.
 - Charts remain responsive across different viewport sizes.
 - Visual customization is supported through configuration options, similar to traditional charting solutions.
-- Rendering is designed to remain visually consistent and pixel-accurate across supported browsers.
+- Rendering is designed to remain visually consistent across supported browsers.
 
 These constraints transformed a simple charting exercise into a study of creative problem-solving, unconventional rendering techniques, and the practical capabilities of modern CSS.
 
