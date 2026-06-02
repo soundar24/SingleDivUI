@@ -2,7 +2,7 @@
     <img src="./assets/logo.png" alt="" width="330" height="" />
 </p>
 <h2 align="center">
-    Charts Built With a Single DIV
+    CSS Charts Built Using a Single DIV
 </h2>
 
 <p align="center">
