@@ -5,52 +5,52 @@
 const math = Math;
 
 function LinearScale(minPoint, maxPoint, maxTicks, stepSize) {
-  const result = [];
-  let lBound, uBound;
+    const result = [];
+    let lBound, uBound;
 
-  if (stepSize > 0) {
-    lBound = minPoint;
-    uBound = maxPoint;
-  }
-  else {
-    const range = niceNum(maxPoint - minPoint, false);
-    stepSize = niceNum(range / (maxTicks - 1), true);
-    lBound = math.floor(minPoint / stepSize) * stepSize;
-    uBound = math.ceil(maxPoint / stepSize) * stepSize;
-  }
+    if (stepSize > 0) {
+        lBound = minPoint;
+        uBound = maxPoint;
+    }
+    else {
+        const range = niceNum(maxPoint - minPoint, false);
+        stepSize = niceNum(range / (maxTicks - 1), true);
+        lBound = math.floor(minPoint / stepSize) * stepSize;
+        uBound = math.ceil(maxPoint / stepSize) * stepSize;
+    }
 
-  var count = math.ceil((uBound - lBound) / stepSize);
-  for(let i=0; i<=count; i++) {
-    result.push(lBound + (i * stepSize));
-  }
-  var reverseScale = result.slice().reverse();
+    var count = math.ceil((uBound - lBound) / stepSize);
+    for (let i = 0; i <= count; i++) {
+        result.push(lBound + (i * stepSize));
+    }
+    var reverseScale = result.slice().reverse();
 
-  return {
-    min: lBound,
-    max: reverseScale[0],
-    scale: result,
-    reverseScale,
-    step: stepSize
-  };
+    return {
+        min: lBound,
+        max: reverseScale[0],
+        scale: result,
+        reverseScale,
+        step: stepSize
+    };
 }
 
 function niceNum(localRange, round) {
-  var exponent = math.floor(math.log10(localRange)),
-    fraction = localRange / math.pow(10, exponent),
-    niceFraction;
+    var exponent = math.floor(math.log10(localRange)),
+        fraction = localRange / math.pow(10, exponent),
+        niceFraction;
 
-  if (round) {
-      if (fraction < 1.5) niceFraction = 1;
-      else if (fraction < 3) niceFraction = 2;
-      else if (fraction < 7) niceFraction = 5;
-      else niceFraction = 10;
-  } else {
-      if (fraction <= 1) niceFraction = 1;
-      else if (fraction <= 2) niceFraction = 2;
-      else if (fraction <= 5) niceFraction = 5;
-      else niceFraction = 10;
-  }
-  return niceFraction * math.pow(10, exponent);
+    if (round) {
+        if (fraction < 1.5) niceFraction = 1;
+        else if (fraction < 3) niceFraction = 2;
+        else if (fraction < 7) niceFraction = 5;
+        else niceFraction = 10;
+    } else {
+        if (fraction <= 1) niceFraction = 1;
+        else if (fraction <= 2) niceFraction = 2;
+        else if (fraction <= 5) niceFraction = 5;
+        else niceFraction = 10;
+    }
+    return niceFraction * math.pow(10, exponent);
 }
 
 const math$1 = Math;
@@ -95,7 +95,7 @@ function calculateAngle(point1, point2, pointsDistance) {
 
     var sinX = opposite / hypotenuse;
     var x = math$1.asin(sinX);
-    var deg = radians_to_degrees(x);
+    var deg = radiansToDegrees(x);
 
     if (diff < 0) {
         deg = -deg;
@@ -130,7 +130,7 @@ function camelToKebabCase(str) {
     return str.split(/(?=[A-Z])/).join('-').toLowerCase();
 }
 
-function radians_to_degrees(radians) {
+function radiansToDegrees(radians) {
     return radians * (180 / math$1.PI);
 }
 
@@ -633,6 +633,7 @@ const validScatterShapes = ['circle', 'square', 'triangle', 'plus'];
 function Scatter(scatterObj, graphObj) {
     let { scatterRadius, scatterShape } = scatterObj;
 
+    // used == to check both 'null' and 'undefined' values
     if (scatterRadius == undefined) {
         scatterObj.scatterRadius = defaultScatterRadius;
     }
@@ -646,7 +647,7 @@ function Scatter(scatterObj, graphObj) {
     return new Bubble(scatterObj, graphObj);
 }
 
-const series = {
+const seriesMap = {
     line: Line,
     bar: Bar,
     area: Area,
@@ -655,8 +656,8 @@ const series = {
 };
 
 // barSize - this value directly used in bar, so this can be ignored
-// pointStyle - this value is no needed directly, so this will be handeled in Line chart
-// pointRadius - this also needed when the point is shown, so this will be handeled in Line chart
+// pointStyle - this value is no needed directly, so this will be handled in Line chart
+// pointRadius - this also needed when the point is shown, so this will be handled in Line chart
 // scatterShape - this value will be transformed into scatterImage (--scatter-image), so this can be ignored
 const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius', 'scatterShape'];
 
@@ -665,7 +666,7 @@ function Series(obj, graphObj) {
     const { type } = seriesObj;
 
     // get the corresponding series class
-    var seriesClass = series[type];
+    var seriesClass = seriesMap[type];
     if (seriesClass) {
         // initialize the series, and generate the styles
         var seriesStyles = new seriesClass(seriesObj, graphObj);
@@ -798,7 +799,7 @@ Chart.prototype = {
         addClass(chart, classNames);
 
         // set the dimensions of the control, based on the
-        // height, width only all the callculations will happen
+        // height, width only all the calculations will happen
         setWidth(chart, width);
         setHeight(chart, height);
 
