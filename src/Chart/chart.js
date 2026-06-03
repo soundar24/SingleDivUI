@@ -2,7 +2,7 @@ import Graph from './graph';
 import Series from './series';
 import { deepExtend, throttle } from '../Base/util';
 import {
-    querySelector, addClass, removeClass, setWidth, setHeight,
+    querySelector, addClass, removeChartClasses, setWidth, setHeight,
     removeAttribute, isDOM, isVisible, getUniqueKey, injectStyles
 } from '../Base/dom-utill';
 
@@ -123,10 +123,10 @@ Chart.prototype = {
         if (type) {
             classNames += ' ' + CLASS_PREFIX + type;
         }
-        this.rootClasses = addClass(chart, classNames);
+        addClass(chart, classNames);
 
         // set the dimensions of the control, based on the
-        // height, width only all the callculations will happen
+        // height, width only all the calculations will happen
         setWidth(chart, width);
         setHeight(chart, height);
 
@@ -219,7 +219,7 @@ Chart.prototype = {
         var chart = this.control;
 
         // remove all the chart related classes that added initially
-        removeClass(chart, this.rootClasses);
+        removeChartClasses(chart, CLASS_PREFIX);
 
         // remove all the inline styles that added
         if (this.options.stylesAppendTo === 'inline') {

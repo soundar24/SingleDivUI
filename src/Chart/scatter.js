@@ -6,6 +6,7 @@ const validScatterShapes = ['circle', 'square', 'triangle', 'plus'];
 export default function Scatter(scatterObj, graphObj) {
     let { scatterRadius, scatterShape } = scatterObj;
 
+    // used == to check both 'null' and 'undefined' values
     if (scatterRadius == undefined) {
         scatterObj.scatterRadius = defaultScatterRadius;
     }

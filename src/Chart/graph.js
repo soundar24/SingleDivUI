@@ -1,7 +1,6 @@
 import LinearScale from './linear-scale'
-import { convertObjToStyles, unitValue } from './../Base/util';
+import { convertObjToStyles, unitValue, isNumber } from './../Base/util';
 import { calculateTextWidth } from './../Base/dom-utill';
-import { isNumber } from './../Base/util';
 
 const math = Math;
 const WHITESPACE_CHAR = '&#160;';

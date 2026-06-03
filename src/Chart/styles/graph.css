@@ -65,7 +65,7 @@
     content: var(--_x-label, "") !important;
     bottom: var(--_x-label-bottom);
     color: var(--_x-label-color);
-    left: calc(var(--_start-position) - var(--_x-label-start, var(--_column-size) / 2));;
+    left: calc(var(--_start-position) - var(--_x-label-start, var(--_column-size) / 2));
 
     /* Scale X - vertical label related styles */
     line-height: var(--_x-label-height, normal);

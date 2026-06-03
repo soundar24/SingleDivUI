@@ -1,7 +1,7 @@
 {
   "name": "singledivui",
-  "version": "1.0.1",
-  "description": "Simple JavaScript Chart Library built with a single <div> element alone",
+  "version": "2.0.0",
+  "description": "An experimental chart library that renders line, bar, area, bubble, and scatter charts using a single HTML element and modern CSS.",
   "author": "soundar24",
   "homepage": "https://singledivui.com",
   "repository": {
@@ -18,6 +18,8 @@
     "line-chart",
     "bar-chart",
     "area-chart",
+    "bubble-chart",
+    "scatter-chart",
     "single-div"
   ],
   "license": "MIT",

@@ -5,7 +5,7 @@ import Bubble from './bubble';
 import Scatter from './scatter';
 import { convertObjToStyles } from './../Base/util';
 
-const series = {
+const seriesMap = {
     line: Line,
     bar: Bar,
     area: Area,
@@ -14,8 +14,8 @@ const series = {
 }
 
 // barSize - this value directly used in bar, so this can be ignored
-// pointStyle - this value is no needed directly, so this will be handeled in Line chart
-// pointRadius - this also needed when the point is shown, so this will be handeled in Line chart
+// pointStyle - this value is no needed directly, so this will be handled in Line chart
+// pointRadius - this also needed when the point is shown, so this will be handled in Line chart
 // scatterShape - this value will be transformed into scatterImage (--scatter-image), so this can be ignored
 const excludeProps = ['type', 'barSize', 'pointStyle', 'pointRadius', 'scatterShape'];
 
@@ -24,7 +24,7 @@ export default function Series(obj, graphObj) {
     const { type } = seriesObj;
 
     // get the corresponding series class
-    var seriesClass = series[type];
+    var seriesClass = seriesMap[type];
     if (seriesClass) {
         // initialize the series, and generate the styles
         var seriesStyles = new seriesClass(seriesObj, graphObj);
